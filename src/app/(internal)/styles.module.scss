@@ -1,0 +1,224 @@
+$brand-success: #5cb85c;
+$loader-size: 5em;
+$check-height: $loader-size/2;
+$check-width: $check-height/2;
+$check-left: ($loader-size/6 + $loader-size/12);
+$check-thickness: 5px;
+$check-color: $brand-success;
+
+.circleLoader {
+  border: 3px solid rgba(0, 0, 0, 0.2);
+  border-left-color: $check-color;
+  animation: loaderSpin 800ms infinite linear;
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  border-radius: 50%;
+  width: $loader-size;
+  height: $loader-size;
+}
+
+.circleLoaderRed {
+  border: 3px solid rgba(0, 0, 0, 0.2);
+  border-left-color: red;
+  animation: loaderSpin 800ms infinite linear;
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  border-radius: 50%;
+  width: $loader-size;
+  height: $loader-size;
+}
+
+.circleLoaderOrange {
+  border: 3px solid rgba(0, 0, 0, 0.2);
+  border-left-color: orange;
+  animation: loaderSpin 800ms linear;
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  border-radius: 50%;
+  width: $loader-size;
+  height: $loader-size;
+}
+
+.loadComplete {
+  -webkit-animation: none;
+  animation: none;
+  border-color: $check-color;
+  transition: border 500ms ease-out;
+}
+
+.loadCompleteRed {
+  -webkit-animation: none;
+  animation: none;
+  border-color: red;
+  transition: border 500ms ease-out;
+}
+
+.loadCompleteOrange {
+  -webkit-animation: none;
+  animation: none;
+  border-color: orange;
+  transition: border 500ms ease-out;
+}
+
+.checkmark {
+  display: none;
+
+  &.draw:after {
+    animation-duration: 800ms;
+    animation-timing-function: ease;
+    animation-name: checkmark;
+    transform: scaleX(-1) rotate(135deg);
+    border-radius: 0.25rem;
+  }
+
+  &:after {
+    opacity: 1;
+    height: $check-height;
+    width: $check-width;
+    transform-origin: left top;
+    border-right: $check-thickness solid $check-color;
+    border-top: $check-thickness solid $check-color;
+    content: "";
+    border-radius: 0.25rem;
+    left: $check-left;
+    top: $check-height;
+    position: absolute;
+  }
+}
+
+.error {
+  display: none;
+
+  &.draw:after {
+    animation-duration: 800ms;
+    animation-timing-function: linear;
+    animation-name: error1;
+    transform: rotate(230deg);
+    border-radius: 0.25rem;
+  }
+  &.draw:before {
+    animation-duration: 800ms;
+    animation-timing-function: linear;
+    animation-name: error2;
+    transform: rotate(-230deg);
+    border-radius: 0.25rem;
+  }
+
+  &:after {
+    width: $check-height;
+    top: 48%;
+    left: 23%;
+  }
+  &:before {
+    width: $check-height;
+    bottom: 47%;
+    right: 23%;
+  }
+  &:before,
+  &:after {
+    content: "";
+    display: block;
+    height: 4px;
+    background: red;
+    position: absolute;
+  }
+}
+
+.info {
+  display: none;
+
+  &.draw:after {
+    animation-duration: 800ms;
+    animation-timing-function: ease;
+    animation-name: info;
+    transform: rotateY(360deg);
+    font-size: 3rem;
+  }
+
+  &:after {
+    content: "!";
+    display: block;
+    left: 40%;
+    bottom: 0%;
+    color: orange;
+    position: absolute;
+  }
+}
+
+@keyframes loaderSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes checkmark {
+  0% {
+    height: 0;
+    width: 0;
+    opacity: 1;
+  }
+  30% {
+    height: 0;
+    width: $check-width;
+    opacity: 1;
+  }
+  100% {
+    height: $check-height;
+    width: $check-width;
+    opacity: 1;
+  }
+}
+
+@keyframes info {
+  0% {
+    font-size: 0;
+    transform: rotateY(0deg);
+    opacity: 1;
+  }
+  100% {
+    font-size: 3rem;
+    transform: rotateY(360deg);
+    opacity: 1;
+  }
+}
+
+@keyframes error1 {
+  0% {
+    width: 0;
+    opacity: 1;
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(115deg);
+    width: 0;
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(230deg);
+    width: $check-height;
+    opacity: 1;
+  }
+}
+@keyframes error2 {
+  0% {
+    width: 0;
+    opacity: 1;
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-115deg);
+    width: 0;
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(-230deg);
+    width: $check-height;
+    opacity: 1;
+  }
+}

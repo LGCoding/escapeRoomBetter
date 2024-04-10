@@ -1,0 +1,44 @@
+.lock {
+  width: 5rem;
+  height: 5rem;
+  margin-right: -1rem;
+}
+
+.title {
+  top: 2.25rem;
+  font-size: 0.75rem;
+  position: absolute;
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+.shackle {
+  height: 2.25rem;
+  width: 100%;
+  position: absolute;
+  display: block;
+}
+
+.lock2 {
+  width: 3rem;
+  height: 3rem;
+  margin-right: -1rem;
+  margin-top: 0.5rem;
+}
+
+.title2 {
+  top: 1.35rem;
+  font-size: 0.45rem;
+  position: absolute;
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+.shackle2 {
+  height: 1.35rem;
+  width: 100%;
+  position: absolute;
+  display: block;
+}

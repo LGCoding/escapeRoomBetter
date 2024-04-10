@@ -1,0 +1,140 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+    provider = "sqlite"
+    url      = env("DATABASE_URL")
+}
+
+generator client {
+    provider        = "prisma-client-js"
+    previewFeatures = ["driverAdapters"]
+}
+
+// enum Role {
+//     USER
+//     ADMIN
+// }
+
+model User {
+    id              String    @id @default(cuid())
+    email           String    @unique
+    name            String
+    password        String
+    salt            String
+    resetId         Int?
+    resetExpired    DateTime?
+    createdAt       DateTime  @default(now())
+    updatedAt       DateTime  @updatedAt
+    role            String    @default("USER")
+    sessions        Session?
+    unlockedLocks   Lock[]
+    unlockedQrcodes QrCodes[]
+    unlockedPaths   Path[]
+}
+
+model Session {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    expiresAt DateTime
+    user      User     @relation(fields: [userId], references: [id])
+    userId    String   @unique
+    role      String
+
+    @@index([userId])
+}
+
+model Path {
+    id            String    @id @default(cuid())
+    name          String
+    color         String
+    isStart       Boolean
+    UnlockQrcodes QrCodes[]
+    Cards         Card[]
+    Lock          Lock[]    @relation(name: "path")
+    unlockLock    Lock[]    @relation(name: "unlock")
+    unlockedPaths User[]
+
+    @@map("Paths")
+}
+
+model QrCodes {
+    id         String   @id @default(cuid())
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @updatedAt
+    title      String
+    locks      Lock[]
+    CardRemove Card[]   @relation(name: "remove")
+    CardAdd    Card[]   @relation(name: "add")
+    User       User[]
+    UnlockPath Path?    @relation(fields: [pathsId], references: [id])
+    pathsId    String?
+
+    @@index([pathsId])
+}
+
+model Card {
+    id        String   @id @default(cuid())
+    title     String
+    image     Image?   @relation(fields: [imageId], references: [id])
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    texts     Text[]
+    isStart   Boolean  @default(false)
+
+    imageId       String?   @unique
+    LocksRemove   Lock[]    @relation(name: "removeL")
+    LocksAdd      Lock[]    @relation(name: "addL")
+    qrCodesRemove QrCodes[] @relation(name: "remove")
+    qrCodesAdd    QrCodes[] @relation(name: "add")
+    Paths         Path?     @relation(fields: [pathsId], references: [id])
+    pathsId       String?
+
+    @@index([pathsId])
+}
+
+model Image {
+    id        String @id @default(cuid())
+    x         Float
+    y         Float
+    width     Float
+    height    Float?
+    image     Bytes
+    imageType String
+    Card      Card?
+}
+
+model Text {
+    id        String   @id @default(cuid())
+    x         Float
+    y         Float
+    fontSize  Float
+    color     String
+    text      String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    Card      Card?    @relation(fields: [cardId], references: [id])
+    cardId    String?
+
+    @@index([cardId])
+}
+
+model Lock {
+    id            String    @id @default(cuid())
+    createdAt     DateTime  @default(now())
+    updatedAt     DateTime  @updatedAt
+    title         String
+    combination   String
+    CardRemove    Card[]    @relation(name: "removeL")
+    CardAdd       Card[]    @relation(name: "addL")
+    User          User[]
+    QrCodes       QrCodes[]
+    Path          Path?     @relation(name: "path", fields: [pathId], references: [id])
+    pathId        String?
+    UnlockPath    Path?     @relation(name: "unlock", fields: [unlockPathsId], references: [id])
+    unlockPathsId String?
+
+    @@index([pathId])
+    @@index([unlockPathsId])
+}

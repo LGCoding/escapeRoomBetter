@@ -1,0 +1,39 @@
+.lockNumber {
+  margin-right: 0.15rem;
+  padding-top: 0.2rem;
+  width: 1rem;
+  display: inline-block;
+  line-height: 1.5rem;
+}
+
+.lockNumbers {
+  top: 6rem;
+  margin-top: 0.5rem;
+  font-size: 1.5rem;
+  position: absolute;
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+.lock {
+  width: 10rem;
+  height: 10rem;
+  margin-right: -2rem;
+}
+
+.title {
+  top: 4.5rem;
+  font-size: 1.5rem;
+  position: absolute;
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+.shackle {
+  height: 4.5rem;
+  width: 100%;
+  position: absolute;
+  display: block;
+}

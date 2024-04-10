@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "~bootswatch/dist/sketchy/variables";
+@import "~bootstrap/scss/bootstrap";
+@import "~bootswatch/dist/sketchy/bootswatch";
+
+body,
+html,
+:root,
+#__next {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
