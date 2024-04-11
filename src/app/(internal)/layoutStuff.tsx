@@ -4,7 +4,6 @@ import { createContext, useEffect, useMemo, useState } from "react";
 import { Button, Card, CardBody, CardText, CardTitle } from "react-bootstrap";
 import { api } from "~/trpc/react";
 import styles from "./styles.module.scss";
-import { metadata } from "../layout";
 
 interface swal {
   title?: string;
