@@ -73,7 +73,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       setGottenSiteOptions(true);
       if (siteOptionsQuery.data.wasError) {
       } else {
-        //document.title = siteOptionsQuery.data.data.title;
+        document.title = siteOptionsQuery.data.data.title;
         let link: (Element & { rel: string; href: string }) | null =
           document.querySelector("link[rel~='icon']");
         if (!link) {
@@ -159,7 +159,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <siteOptionsContext.Provider value={siteOptions}>
         <swalContext.Provider value={swal}>
           <sessionContext.Provider value={{ isAdmin }}>
-            {children}
+            {gottenSiteOptions ? children : ""}
           </sessionContext.Provider>
         </swalContext.Provider>
       </siteOptionsContext.Provider>

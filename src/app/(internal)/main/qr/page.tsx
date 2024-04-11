@@ -3,8 +3,9 @@ import { QrScanner } from "@yudiel/react-qr-scanner";
 import React, { useContext, useState } from "react";
 import { api } from "~/trpc/react";
 import { swalContext } from "../../layoutStuff";
+import dynamic from "next/dynamic";
 
-export default function Qr() {
+function QrNoSSR() {
   const swal = useContext(swalContext);
   const [id, setId] = useState("");
   const usersRemove = api.qrs.unlockQr.useMutation({
@@ -45,3 +46,9 @@ export default function Qr() {
     </>
   );
 }
+// export it with SSR disabled
+const Qr = dynamic(() => Promise.resolve(QrNoSSR), {
+  ssr: false,
+});
+
+export default Qr;
