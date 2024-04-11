@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { ButtonGroup } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
 import NavButton from "~/app/_components/main/navButton";
-import { sessionContext } from "../../layout";
+import { sessionContext } from "../../layoutStuff";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const session = useContext(sessionContext);
@@ -47,6 +47,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               </NavButton>
               <NavButton href="/main/admin/paths" iconName="Shuffle">
                 Paths
+              </NavButton>
+              <NavButton href="/main/admin/siteOptions" iconName="Gear">
+                Other
               </NavButton>
             </ButtonGroup>
           </div>

@@ -1,5 +1,5 @@
-import { PrismaClient } from "@prisma/client";
-import { DefaultArgs } from "@prisma/client/runtime/library";
+import { type PrismaClient } from "@prisma/client";
+import { type DefaultArgs } from "@prisma/client/runtime/library";
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
@@ -208,7 +208,7 @@ export async function linkStartPaths(
       id: true,
     },
   });
-  const user = await db.user.update({
+  await db.user.update({
     where: {
       id: userId,
     },

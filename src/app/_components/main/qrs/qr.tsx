@@ -1,10 +1,8 @@
 "use client";
-import React, { useRef, useState } from "react";
-import { LockFill, UnlockFill } from "react-bootstrap-icons";
-import styles from "./lock.module.css";
-import { QrType } from "./qrShared";
-import { QRCode } from "react-qrcode-logo";
 import * as htmlToImage from "html-to-image";
+import { useState } from "react";
+import { QRCode } from "react-qrcode-logo";
+import { type QrType } from "./qrShared";
 
 interface QrProps {
   qr: QrType;
@@ -12,7 +10,7 @@ interface QrProps {
   onClick?: () => void;
 }
 
-export default function Qr({ qr, openCallback, onClick }: QrProps) {
+export default function Qr({ qr, onClick }: QrProps) {
   const handleImageDownload = async () => {
     setBig(true);
     setTimeout(() => {
@@ -49,7 +47,7 @@ export default function Qr({ qr, openCallback, onClick }: QrProps) {
       }}
       onContextMenu={(e) => {
         e.preventDefault();
-        handleImageDownload();
+        void handleImageDownload();
       }}
     >
       <h2 style={{ textAlign: "center" }}>{qr.title || "___"}</h2>

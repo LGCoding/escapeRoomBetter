@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import User from "~/app/_components/main/users/user";
 import { type UserType } from "~/app/_components/main/users/userShared";
-import { swalContext } from "../../layout";
+import { swalContext } from "../../layoutStuff";
 import { api } from "~/trpc/react";
 
 export default function Admin() {
@@ -153,13 +153,7 @@ export default function Admin() {
           />
         );
       })}
-      <Modal
-        show={show}
-        onHide={() => setShow(false)}
-        backdrop="static"
-        keyboard={false}
-        enforceFocus={false}
-      >
+      <Modal show={show} onHide={() => setShow(false)} enforceFocus={false}>
         <Modal.Header closeButton>
           <Modal.Title>Card Editor</Modal.Title>
         </Modal.Header>

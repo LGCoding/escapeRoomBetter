@@ -2,9 +2,7 @@
 import { useEffect, useState } from "react";
 import { Button, OverlayTrigger } from "react-bootstrap";
 import Popover from "react-bootstrap/esm/Popover";
-import type CSS from "csstype";
-import { CardType } from "../cards/CardShared";
-import styles from "../cards/cards.module.css";
+import { type CardType } from "../cards/CardShared";
 import Card from "../cards/card";
 import IconInput from "../iconInput/IconInput";
 

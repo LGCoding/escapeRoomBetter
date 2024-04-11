@@ -25,9 +25,9 @@ export function decrypt(data: string) {
 }
 
 export function createSaltHash(data: string) {
-  var salt = crypto.randomBytes(128).toString("base64");
-  var iterations = env.ITERATIONS;
-  var hash = crypto
+  const salt = crypto.randomBytes(128).toString("base64");
+  const iterations = env.ITERATIONS;
+  const hash = crypto
     .pbkdf2Sync(data, salt, iterations, 64, "sha512")
     .toString("base64");
 

@@ -2,7 +2,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import * as yup from "yup";
-import { swalContext } from "~/app/(internal)/layout";
+import { swalContext } from "~/app/(internal)/layoutStuff";
 import CardInput from "~/app/_components/main/cardInput/cardInput";
 import PathInput from "~/app/_components/main/pathInput/pathInput";
 import { type CardType } from "~/app/_components/main/cards/CardShared";
@@ -238,13 +238,7 @@ export default function Admin() {
           />
         );
       })}
-      <Modal
-        show={show}
-        onHide={() => setShow(false)}
-        backdrop="static"
-        keyboard={false}
-        enforceFocus={false}
-      >
+      <Modal show={show} onHide={() => setShow(false)} enforceFocus={false}>
         <Modal.Header closeButton>
           <Modal.Title>Lock Editor</Modal.Title>
         </Modal.Header>

@@ -18,7 +18,7 @@ import * as yup from "yup";
 // import { swalContext } from "./layout";
 import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
-import { swalContext } from "./layout";
+import { siteOptionsContext, swalContext } from "./layoutStuff";
 
 const schema = yup.object({
   email: yup.string().email().required("This field is required"),
@@ -30,6 +30,7 @@ const schema = yup.object({
 });
 
 export default function Home() {
+  const siteOptions = useContext(siteOptionsContext);
   const login = api.login.loginUser.useMutation();
   const swal = useContext(swalContext);
   const router = useRouter();
@@ -44,10 +45,10 @@ export default function Home() {
                 <CardBody>
                   <div className="mt-md-4 mb-3">
                     <h2 className="fw-bold text-uppercase mb-2 text-center ">
-                      Escape Room
+                      {siteOptions.title}
                     </h2>
                     <Image
-                      src="./images/logo.svg"
+                      src={siteOptions.icon}
                       alt="Brand"
                       style={{
                         width: "5rem",

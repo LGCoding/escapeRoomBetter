@@ -2,7 +2,7 @@
 import { QrScanner } from "@yudiel/react-qr-scanner";
 import React, { useContext, useState } from "react";
 import { api } from "~/trpc/react";
-import { swalContext } from "../../layout";
+import { swalContext } from "../../layoutStuff";
 
 export default function Qr() {
   const swal = useContext(swalContext);

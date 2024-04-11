@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
-import { swalContext } from "~/app/(internal)/layout";
+import { swalContext } from "~/app/(internal)/layoutStuff";
 import type { CardType } from "~/app/_components/main/cards/CardShared";
 import Card from "~/app/_components/main/cards/card";
 import CardEdit from "~/app/_components/main/cards/cardEdit";
@@ -96,7 +96,6 @@ export default function Admin() {
       } else {
         setCards(
           cardsQuery.data.data.map((el) => {
-            console.log(el);
             if (el.image) {
               const mimeType = el.image.imageType;
               return {
@@ -246,6 +245,7 @@ export default function Admin() {
         <Card
           key={index + "Cardsd"}
           cardInput={value}
+          flipped={true}
           onClick={() => {
             setCurrentCard(value);
             setCurrentIndex(index);
@@ -255,13 +255,7 @@ export default function Admin() {
         />
       ))}
 
-      <Modal
-        show={show}
-        onHide={handleClose}
-        backdrop="static"
-        keyboard={false}
-        enforceFocus={false}
-      >
+      <Modal show={show} onHide={handleClose} enforceFocus={false}>
         <Modal.Header closeButton>
           <Modal.Title>Card Editor</Modal.Title>
         </Modal.Header>

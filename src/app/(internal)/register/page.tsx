@@ -1,11 +1,13 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import Image from "react-bootstrap/Image";
 import { api } from "~/trpc/react";
-import { swalContext } from "../layout";
+import { siteOptionsContext, swalContext } from "../layoutStuff";
 
 export default function Register() {
+  const siteOptions = useContext(siteOptionsContext);
+
   const router = useRouter();
   const searchParams = useSearchParams();
   const query: string | null = searchParams.get("data");
@@ -46,10 +48,10 @@ export default function Register() {
           <div className="card shadow-sm">
             <div className="card-body">
               <h2 className="fw-bold text-uppercase mb-2 text-center ">
-                Escape Room
+                {siteOptions.title}
               </h2>
               <Image
-                src="/images/logo.svg"
+                src={siteOptions.icon}
                 alt="Brand"
                 style={{
                   width: "5rem",

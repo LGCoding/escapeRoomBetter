@@ -7,13 +7,12 @@
  * need to use are documented accordingly near the end.
  */
 import { initTRPC } from "@trpc/server";
-import { NextApiRequest } from "next";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
 import { db } from "~/server/db";
-import { createObjectFromJson, sessionSchema } from "../util/schemaValidate";
 import { decrypt } from "../util/encrypt";
+import { createObjectFromJson, sessionSchema } from "../util/schemaValidate";
 
 export async function decodeSession(headers: Headers) {
   const authorization = headers.get("authorization");

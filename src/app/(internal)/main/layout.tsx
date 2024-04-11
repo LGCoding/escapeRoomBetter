@@ -4,10 +4,12 @@ import { ButtonGroup } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
 import { isMobile } from "react-device-detect";
 import NavButton from "../../_components/main/navButton";
-import { sessionContext } from "../layout";
+import { sessionContext, siteOptionsContext } from "../layoutStuff";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const session = useContext(sessionContext);
+  const siteOptions = useContext(siteOptionsContext);
+
   return (
     <>
       <div
@@ -33,7 +35,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         >
           <h2 className="fw-bold text-light text-uppercase mb-2 text-center ">
             <Image
-              src="/images/logo.svg"
+              src={siteOptions.icon}
               alt="Brand"
               style={{
                 width: "2.5rem",
@@ -41,9 +43,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 display: "inline",
               }}
             />{" "}
-            Cipher Society{" "}
+            {siteOptions.title}{" "}
             <Image
-              src="/images/logo.svg"
+              src={siteOptions.icon}
               alt="Brand"
               style={{
                 width: "2.5rem",

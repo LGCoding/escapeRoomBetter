@@ -18,5 +18,4 @@ const createContext = cache(() => {
     headers: heads,
   });
 });
-
-export const api = createCaller(createContext);
+export const api = createCaller(await createContext());

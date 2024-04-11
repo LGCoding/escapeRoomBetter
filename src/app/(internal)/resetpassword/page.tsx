@@ -16,7 +16,7 @@ import {
   Image,
 } from "react-bootstrap";
 import * as yup from "yup";
-import { swalContext } from "../layout";
+import { siteOptionsContext, swalContext } from "../layoutStuff";
 import { api } from "~/trpc/react";
 
 const schema = yup.object({
@@ -38,6 +38,7 @@ export default function SignUp({}) {
   const swal = useContext(swalContext);
   const searchParams = useSearchParams();
   const query: string | null = searchParams.get("data");
+  const siteOptions = useContext(siteOptionsContext);
 
   const reset = api.login.resetPassword.useMutation();
 
@@ -50,10 +51,10 @@ export default function SignUp({}) {
               <CardBody>
                 <div className="mt-md-4 mb-3">
                   <h2 className="fw-bold text-uppercase mb-2 text-center ">
-                    Escape Room
+                    {siteOptions.title}
                   </h2>
                   <Image
-                    src="./images/logo.svg"
+                    src={siteOptions.icon}
                     alt="Brand"
                     style={{
                       width: "5rem",

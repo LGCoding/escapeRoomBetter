@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import Lock from "~/app/_components/main/locks/lock";
 import { type LockType } from "~/app/_components/main/locks/lockShared";
 import { api } from "~/trpc/react";
-import { swalContext } from "../../layout";
+import { swalContext } from "../../layoutStuff";
 import { Accordion } from "react-bootstrap";
 
 export default function Locks() {

@@ -83,6 +83,9 @@ export const loginRouter = createTRPCRouter({
         },
       });
       if (!user) {
+        console.log(
+          `http://localhost:3000/register?data=${encrypt(JSON.stringify(input))}`,
+        );
         sendEmail(
           input.email,
           "Register User",

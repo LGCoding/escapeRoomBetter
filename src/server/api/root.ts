@@ -5,6 +5,7 @@ import { lockRouter } from "./routers/locks";
 import { qrRouter } from "./routers/qr";
 import { userRouter } from "./routers/users";
 import { pathRouter } from "./routers/paths";
+import { siteOptionsRouter } from "./routers/siteOptions";
 
 /**
  * This is the primary router for your server.
@@ -18,6 +19,7 @@ export const appRouter = createTRPCRouter({
   qrs: qrRouter,
   users: userRouter,
   paths: pathRouter,
+  siteOptions: siteOptionsRouter,
 });
 
 // export type definition of API

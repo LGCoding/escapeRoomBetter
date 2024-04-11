@@ -1,19 +1,12 @@
 "use client";
-import React, {
-  MutableRefObject,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Button, Card, Form, OverlayTrigger, Popover } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
-import styles from "./cards.module.css";
-import IconInput from "../iconInput/IconInput";
 import Draggable from "react-draggable";
-import { relative } from "path";
+import IconInput from "../iconInput/IconInput";
+import styles from "./cards.module.css";
 import type { CardType } from "./CardShared";
-import { object } from "zod";
+import { siteOptionsContext } from "~/app/(internal)/layoutStuff";
 
 interface CardProps {
   cardInput: CardType;
@@ -27,7 +20,6 @@ function Text({
   test,
   currentCard,
   onChange,
-  bodyRef,
   setCurrentCard,
 }: {
   object: {
@@ -284,13 +276,13 @@ function Text({
 }
 
 export default function Cards({
-  onClick,
   onChange,
   cardInput,
   //   parentWidth,
 }: CardProps) {
-  const [size, setSize] = useState("10rem");
-  const [expanded, setExpanded] = useState(false);
+  const siteOptions = useContext(siteOptionsContext);
+  const [size] = useState("10rem");
+  const [expanded] = useState(false);
   const card = useRef<HTMLDivElement | null>(null);
   //   const [rem, setRem] = useState(parentWidth / 160);
   const [test, setTest] = useState(100 / 160);
@@ -316,6 +308,7 @@ export default function Cards({
       style={{
         width: size,
         backgroundSize: size,
+        backgroundImage: `url(${siteOptions.card})`,
       }}
       ref={bodyRef}
     >

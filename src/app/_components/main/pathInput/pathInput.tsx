@@ -1,11 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Button, OverlayTrigger } from "react-bootstrap";
-import Popover from "react-bootstrap/esm/Popover";
-import IconInput from "../iconInput/IconInput";
 import { Shuffle } from "react-bootstrap-icons";
-import styles from "./path.module.css";
+import Popover from "react-bootstrap/esm/Popover";
 import { type PathType } from "../path/pathShared";
+import styles from "./path.module.css";
 
 export default function PathInput({
   onChange,
@@ -20,7 +19,6 @@ export default function PathInput({
 }) {
   const [pathId, setPathId] = useState<string>();
   const [show, setShow] = useState(false);
-  const [filter, setFilter] = useState("");
   function openInput() {
     setShow(true);
   }

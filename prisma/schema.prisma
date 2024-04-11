@@ -11,10 +11,14 @@ generator client {
     previewFeatures = ["driverAdapters"]
 }
 
-// enum Role {
-//     USER
-//     ADMIN
-// }
+model SiteOptions {
+    id       String  @id @default(cuid())
+    icon     Bytes?
+    card     Bytes?
+    card2    Bytes?
+    homeText String?
+    title    String?
+}
 
 model User {
     id              String    @id @default(cuid())

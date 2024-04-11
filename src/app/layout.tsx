@@ -2,20 +2,27 @@ import "~/styles/globals.scss";
 
 import { Inter } from "next/font/google";
 
+import { type Metadata } from "next";
 import { TRPCReactProvider } from "~/trpc/react";
-import { useRouter } from "next/router";
-import { Metadata } from "next";
-import { api } from "~/trpc/react";
+import { api } from "~/trpc/server";
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
 });
 
+const data = await api.siteOptions.getSiteOptions();
 export const metadata: Metadata = {
-  title: "Escape St. Sebastian's",
+  title: data.wasError ? "Default Title" : data.data.title,
   description: "The website for code 1111",
-  icons: [{ rel: "icon", url: "/images/logo.svg" }],
+  icons: [
+    {
+      rel: "icon",
+      url: data.wasError
+        ? "Default Title"
+        : `data:image/svg+xml;base64,${data.data.icon}`,
+    },
+  ],
 };
 
 export default function RootLayout({

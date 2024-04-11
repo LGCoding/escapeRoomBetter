@@ -5,7 +5,7 @@ import { Button, Form, Modal } from "react-bootstrap";
 import Path from "~/app/_components/main/path/path";
 import { type PathType } from "~/app/_components/main/path/pathShared";
 import { api } from "~/trpc/react";
-import { swalContext } from "../../../layout";
+import { swalContext } from "../../../layoutStuff";
 
 export default function Admin() {
   const swal = useContext(swalContext);
@@ -147,13 +147,7 @@ export default function Admin() {
           />
         );
       })}
-      <Modal
-        show={show}
-        onHide={() => setShow(false)}
-        backdrop="static"
-        keyboard={false}
-        enforceFocus={false}
-      >
+      <Modal show={show} onHide={() => setShow(false)} enforceFocus={false}>
         <Modal.Header closeButton>
           <Modal.Title>Card Editor</Modal.Title>
         </Modal.Header>

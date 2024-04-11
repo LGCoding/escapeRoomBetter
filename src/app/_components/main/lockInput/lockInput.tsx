@@ -2,9 +2,8 @@
 import { useEffect, useState } from "react";
 import { Button, OverlayTrigger } from "react-bootstrap";
 import Popover from "react-bootstrap/esm/Popover";
-import Lock from "../locks/lock";
 import IconInput from "../iconInput/IconInput";
-import { LockType } from "../locks/lockShared";
+import { type LockType } from "../locks/lockShared";
 import { LockFill } from "react-bootstrap-icons";
 import styles from "./lock.module.css";
 

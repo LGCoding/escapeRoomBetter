@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import Card from "~/app/_components/main/cards/card";
 import type { CardType } from "~/app/_components/main/cards/CardShared";
 import { api } from "~/trpc/react";
-import { swalContext } from "../../layout";
+import { swalContext } from "../../layoutStuff";
 import { Accordion } from "react-bootstrap";
 
 export default function Cards() {

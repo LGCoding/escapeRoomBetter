@@ -7,7 +7,7 @@ import {
   FormLabel,
   Modal,
 } from "react-bootstrap";
-import { swalContext } from "~/app/(internal)/layout";
+import { swalContext } from "~/app/(internal)/layoutStuff";
 import CardInput from "~/app/_components/main/cardInput/cardInput";
 import { type CardType } from "~/app/_components/main/cards/CardShared";
 import LockInput from "~/app/_components/main/lockInput/lockInput";
@@ -239,13 +239,7 @@ export default function Admin() {
           />
         );
       })}
-      <Modal
-        show={show}
-        onHide={() => setShow(false)}
-        backdrop="static"
-        keyboard={false}
-        enforceFocus={false}
-      >
+      <Modal show={show} onHide={() => setShow(false)} enforceFocus={false}>
         <Modal.Header closeButton>
           <Modal.Title>Card Editor</Modal.Title>
         </Modal.Header>

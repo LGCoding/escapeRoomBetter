@@ -2,7 +2,7 @@
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
-  HTTPHeaders,
+  type HTTPHeaders,
   loggerLink,
   unstable_httpBatchStreamLink,
 } from "@trpc/client";
@@ -44,8 +44,7 @@ export function TRPCReactProvider(props: { children: React.ReactNode }) {
             //headers.set("x-trpc-source", "nextjs-react");
             try {
               if (localStorage) {
-                headers["authorization"] =
-                  localStorage.getItem("session") ?? "";
+                headers.authorization = localStorage.getItem("session") ?? "";
                 //   headers.set(
                 //     "authorization",
                 //     localStorage.getItem("session") ?? "",
