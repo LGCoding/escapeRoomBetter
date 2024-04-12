@@ -21,7 +21,7 @@ export interface Session {
   role: "ADMIN" | "USER";
 }
 
-function sendEmail(
+async function sendEmail(
   to: string,
   subject: string,
   text: string,
@@ -37,6 +37,18 @@ function sendEmail(
   };
 
   const transporter = NodeMailer.createTransport(transportOptions);
+  await new Promise((resolve, reject) => {
+    // verify connection configuration
+    transporter.verify(function (error, success) {
+      if (error) {
+        console.log(error);
+        reject(error);
+      } else {
+        console.log("Server is ready to take our messages");
+        resolve(success);
+      }
+    });
+  });
 
   const mailOptions: Mail.Options = {
     from: "escapestseb@gmail.com", // sender address
@@ -44,13 +56,17 @@ function sendEmail(
     subject: subject, // Subject line
     html: `<p>${text} ${link ? `<a href="${link}">Here</a>` : ""}</p>`, // plain text body
   };
-
-  // send mail with defined transport object
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      return console.log(error);
-    }
-    console.log("Message sent: %s", info.messageId);
+  await new Promise((resolve, reject) => {
+    // send mail
+    transporter.sendMail(mailOptions, (err, info) => {
+      if (err) {
+        console.error(err);
+        reject(err);
+      } else {
+        console.log(info);
+        resolve(info);
+      }
+    });
   });
 }
 
@@ -86,7 +102,7 @@ export const loginRouter = createTRPCRouter({
         console.log(
           `http://localhost:3000/register?data=${encrypt(JSON.stringify(input))}`,
         );
-        sendEmail(
+        await sendEmail(
           input.email,
           "Register User",
           "Use this link to register your email ",
@@ -205,7 +221,7 @@ export const loginRouter = createTRPCRouter({
               resetExpired: new Date(new Date().getTime() + 300000),
             },
           });
-          sendEmail(
+          await sendEmail(
             input.email,
             "Reset Password",
             "Use this link to reset your password you have ",
