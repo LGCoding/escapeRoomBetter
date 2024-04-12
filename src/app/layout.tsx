@@ -1,15 +1,14 @@
 import "~/styles/globals.scss";
 
-import { Inter } from "next/font/google";
-
 import { type Metadata } from "next";
 import { TRPCReactProvider } from "~/trpc/react";
 // import { api } from "~/trpc/server";
 
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-sans",
-});
+// import { Inter } from "next/font/google";
+// const inter = Inter({
+//   subsets: ["latin"],
+//   variable: "--font-sans",
+// });
 
 // const data = await api.siteOptions.getSiteOptions();
 // export const metadata: Metadata = {
@@ -25,7 +24,6 @@ const inter = Inter({
 //   ],
 // };
 export const metadata: Metadata = {
-  title: "Default Title",
   description: "The website for code 1111",
 };
 
@@ -36,7 +34,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`font-sans ${inter.variable}`}>
+      <body>
         <div
           style={{
             overflow: "hidden",

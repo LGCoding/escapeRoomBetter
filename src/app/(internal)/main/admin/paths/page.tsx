@@ -111,7 +111,6 @@ export default function Admin() {
     if (currentIndex === -2) {
       pathsAdd.mutate(currentPath);
     } else if (currentPath.id) {
-      console.log("hi");
       pathsModify.mutate({ ...currentPath, id: currentPath.id });
     }
   }
@@ -137,7 +136,6 @@ export default function Admin() {
         return (
           <Path
             onClick={() => {
-              console.log(el);
               setCurrentPath(el);
               setCurrentIndex(i);
               setShow(true);

@@ -73,7 +73,6 @@ export default function Locks({
               onClick();
               return;
             }
-            console.log(password);
             openCallback(password);
           }
         }}

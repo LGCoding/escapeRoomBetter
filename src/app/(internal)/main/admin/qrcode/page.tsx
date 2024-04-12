@@ -157,7 +157,6 @@ export default function Admin() {
           confirmButtonText: "ok",
         });
       } else {
-        console.log("ji");
         setLocks(locksQuery.data.data);
       }
     }

@@ -97,7 +97,17 @@ export default function Cards() {
         defaultActiveKey={"0"}
       >
         {Object.keys(cards).map((el, i) => {
-          const record = cards[el];
+          const record = cards[el]?.sort((a, b) => {
+            if (a.title < b.title) {
+              return -1;
+            }
+            if (a.title > b.title) {
+              return 1;
+            }
+
+            // names must be equal
+            return 0;
+          });
 
           return (
             <Accordion.Item key={i} eventKey={i + ""}>

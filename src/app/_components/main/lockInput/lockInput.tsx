@@ -23,9 +23,7 @@ export default function LockInput({
   const [lockIds, setLockIds] = useState<string[]>([]);
   const [show, setShow] = useState(false);
   const [filter, setFilter] = useState("");
-  function openInput() {
-    setShow(true);
-  }
+
   useEffect(() => {
     if (value) setLockIds(value);
   }, [value]);
@@ -34,6 +32,15 @@ export default function LockInput({
       <OverlayTrigger
         placement={"auto"}
         show={show}
+        trigger={"click"}
+        rootClose={true}
+        //@ts-expect-error bootstrap screwed up
+        onHide={() => {
+          setShow(false);
+        }}
+        onToggle={() => {
+          setShow(!show);
+        }}
         overlay={
           <Popover
             key="imagePopover"
@@ -42,7 +49,7 @@ export default function LockInput({
             }}
           >
             <Popover.Header as="h3">
-              Image Size
+              Image Size Filter:
               <IconInput onChange={(text) => setFilter(text)} />
               <Button
                 style={{
@@ -124,7 +131,6 @@ export default function LockInput({
               height: "5rem",
             }}
             className="form-control"
-            onClick={openInput}
           >
             {lockIds.map((id, i) => {
               const lock = locks.find((el) => {

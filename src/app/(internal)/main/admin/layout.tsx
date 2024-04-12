@@ -57,7 +57,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             className="overflow-auto"
             style={{
               padding: "0px",
-              width: "102%",
+              width: "100%",
               gridArea: "d",
             }}
           >

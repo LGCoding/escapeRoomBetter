@@ -22,18 +22,25 @@ export default function CardInput({
   const [cardIds, setCardIds] = useState<string[]>([]);
   const [show, setShow] = useState(false);
   const [filter, setFilter] = useState("");
-  function openInput() {
-    setShow(true);
-  }
 
   useEffect(() => {
     if (value) setCardIds(value);
   }, [value]);
+
   return (
     <>
       <OverlayTrigger
         placement={"auto"}
         show={show}
+        trigger={"click"}
+        rootClose={true}
+        //@ts-expect-error bootstrap screwed up
+        onHide={() => {
+          setShow(false);
+        }}
+        onToggle={() => {
+          setShow(!show);
+        }}
         overlay={
           <Popover
             key="imagePopover"
@@ -73,6 +80,7 @@ export default function CardInput({
                 if (el.title.includes(filter) && el.id) {
                   return (
                     <Card
+                      flipped={true}
                       width="5rem"
                       borderColor={card !== -1 ? "blue" : "black"}
                       cardInput={el}
@@ -113,7 +121,6 @@ export default function CardInput({
               height: "5rem",
             }}
             className="form-control"
-            onClick={openInput}
           >
             {cardIds.map((id, i) => {
               const card = cards.find((el) => {
@@ -123,9 +130,10 @@ export default function CardInput({
               return (
                 <Card
                   width="3rem"
+                  flipped={true}
                   cardInput={card}
                   key={i}
-                  onClick={openInput}
+                  onClick={() => ""}
                 />
               );
             })}

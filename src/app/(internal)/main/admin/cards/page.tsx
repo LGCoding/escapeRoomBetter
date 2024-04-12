@@ -7,6 +7,7 @@ import { swalContext } from "~/app/(internal)/layoutStuff";
 import type { CardType } from "~/app/_components/main/cards/CardShared";
 import Card from "~/app/_components/main/cards/card";
 import CardEdit from "~/app/_components/main/cards/cardEdit";
+import IconInput from "~/app/_components/main/iconInput/IconInput";
 import { type PathType } from "~/app/_components/main/path/pathShared";
 import PathInput from "~/app/_components/main/pathInput/pathInput";
 import { api } from "~/trpc/react";
@@ -43,7 +44,6 @@ export default function Admin() {
   });
   const cardsModify = api.cards.modifyCard.useMutation({
     onSuccess: async (e) => {
-      console.log("sdfdsfnmsdfmn,d");
       if (e.wasError) {
         swal({
           icon: "error",
@@ -281,6 +281,14 @@ export default function Admin() {
             onChange={(v) => setCurrentCard({ ...currentCard, pathsId: v })}
             paths={paths}
           />
+          <br />
+          <Form.Label>Title: </Form.Label>
+          <IconInput
+            style={{ display: "inline-block" }}
+            initialValue={currentCard.title}
+            onChange={(v) => setCurrentCard({ ...currentCard, title: v })}
+          />
+          <br />
           <Button
             onClick={() => {
               setCurrentCard({
@@ -305,7 +313,6 @@ export default function Admin() {
             key="editCard"
             cardInput={currentCard}
             onChange={(e) => {
-              console.log(e);
               setCurrentCard(e);
             }}
             onClick={() => 1}

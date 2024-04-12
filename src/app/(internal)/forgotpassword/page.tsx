@@ -30,7 +30,6 @@ export default function ForgotPassword() {
   const swal = useContext(swalContext);
   const resetPasswordEmail = api.login.resetPasswordEmail.useMutation({
     onSuccess: (result) => {
-      console.log("in");
       if (result.wasError) {
         swal({
           title: "Error",

@@ -34,56 +34,12 @@ export default function IconInput({
   edit?: boolean;
   initialValue?: string;
   style?: CSS.Properties;
+  defaultOpen?: boolean;
 }) {
   const [value, setValue] = useState<string[]>(initialValue?.split("") ?? []);
   const [editable, setEditable] = useState(edit ?? true);
   const [show, setShow] = useState(false);
-  const popover = (
-    <Popover id="popover-basic">
-      <Popover.Header as="h3">
-        Keyboard{" "}
-        <Button
-          style={{
-            paddingLeft: ".25rem",
-            paddingRight: ".25rem",
-            paddingTop: "0rem",
-            paddingBottom: "0rem",
-            float: "right",
-            marginTop: "-.25rem",
-          }}
-          variant="outline-danger"
-          onClick={() => setShow(false)}
-        >
-          X
-        </Button>
-      </Popover.Header>
-      <Popover.Body>
-        {icons.map((item) => (
-          <Button
-            key={item}
-            onClick={() => {
-              if (value.length < 3) {
-                setValue([...value, item]);
-                if (onChange) onChange([...value, item].join(""));
-              }
-            }}
-          >
-            {item}
-          </Button>
-        ))}
-        <Button
-          onClick={() => {
-            if (value.length) {
-              setValue(value.slice(0, value.length - 1));
-              if (onChange) onChange(value.slice(0, value.length - 1).join(""));
-            }
-          }}
-        >
-          {"<-"}
-        </Button>
-      </Popover.Body>
-    </Popover>
-  );
+
   useEffect(() => {
     setEditable(edit ?? true);
   }, [edit]);
@@ -92,13 +48,64 @@ export default function IconInput({
       <OverlayTrigger
         trigger="click"
         placement="auto"
+        //@ts-expect-error bootstrap screwed up
+        onHide={() => {
+          setShow(false);
+        }}
+        rootClose={true}
         onToggle={() => {
           if (editable) {
             setShow(!show);
           }
         }}
         show={show}
-        overlay={popover}
+        overlay={
+          <Popover id="popover-basic">
+            <Popover.Header as="h3">
+              Keyboard{" "}
+              <Button
+                style={{
+                  paddingLeft: ".25rem",
+                  paddingRight: ".25rem",
+                  paddingTop: "0rem",
+                  paddingBottom: "0rem",
+                  float: "right",
+                  marginTop: "-.25rem",
+                }}
+                variant="outline-danger"
+                onClick={() => setShow(false)}
+              >
+                X
+              </Button>
+            </Popover.Header>
+            <Popover.Body>
+              {icons.map((item) => (
+                <Button
+                  key={item}
+                  onClick={() => {
+                    if (value.length < 3) {
+                      setValue([...value, item]);
+                      if (onChange) onChange([...value, item].join(""));
+                    }
+                  }}
+                >
+                  {item}
+                </Button>
+              ))}
+              <Button
+                onClick={() => {
+                  if (value.length) {
+                    setValue(value.slice(0, value.length - 1));
+                    if (onChange)
+                      onChange(value.slice(0, value.length - 1).join(""));
+                  }
+                }}
+              >
+                {"<-"}
+              </Button>
+            </Popover.Body>
+          </Popover>
+        }
       >
         <p
           style={{

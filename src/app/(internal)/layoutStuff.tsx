@@ -96,6 +96,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     void (async () => {
       await siteOptionsQuery.refetch();
+      if (!localStorage?.getItem("session")) {
+        if (pathname.includes("/main")) {
+          router.push("/");
+        }
+      }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -118,6 +123,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (!checkSession?.data) return;
     setGottenSession(true);
+    console.log(checkSession.data.valid, pathname.includes("/main"));
     if (!checkSession.data.valid && pathname.includes("/main")) {
       router.push("/");
     }

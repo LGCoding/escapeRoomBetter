@@ -30,6 +30,15 @@ export default function PathInput({
       <OverlayTrigger
         placement={"auto"}
         show={show}
+        trigger={"click"}
+        rootClose={true}
+        //@ts-expect-error bootstrap screwed up
+        onHide={() => {
+          setShow(false);
+        }}
+        onToggle={() => {
+          setShow(!show);
+        }}
         overlay={
           <Popover
             key="imagePopover"
@@ -71,7 +80,6 @@ export default function PathInput({
                       key={i}
                       onClick={() => {
                         if (!el.id) return;
-                        console.log();
                         if (el.id === pathId) {
                           setPathId(undefined);
                           if (onChange) onChange(undefined);
@@ -109,7 +117,6 @@ export default function PathInput({
               height: "4rem",
             }}
             className="form-control"
-            onClick={openInput}
           >
             {pathId ? (
               <div className={"relative inline-block " + styles.lock2}>

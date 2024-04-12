@@ -16,7 +16,6 @@ export default function Register() {
 
   const register = api.login.registerUser.useMutation({
     onSuccess: (result) => {
-      console.log("in");
       if (result.wasError) {
         swal({
           title: "Error",
@@ -33,7 +32,6 @@ export default function Register() {
   });
   useEffect(() => {
     if (query && !registered.current) {
-      console.log("here");
       registered.current = true;
       register.mutate(query);
     }

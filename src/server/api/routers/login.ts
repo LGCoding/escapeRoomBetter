@@ -21,21 +21,21 @@ export interface Session {
   role: "ADMIN" | "USER";
 }
 
-const transportOptions: SMTPTransport.Options = {
-  service: "gmail",
-  auth: {
-    user: env.EMAIL,
-    pass: env.EMAIL_PASSWORD,
-  },
-  logger: true,
-};
-
 function sendEmail(
   to: string,
   subject: string,
   text: string,
   link: string | undefined,
 ) {
+  const transportOptions: SMTPTransport.Options = {
+    service: "gmail",
+    auth: {
+      user: env.EMAIL,
+      pass: env.EMAIL_PASSWORD,
+    },
+    logger: true,
+  };
+
   const transporter = NodeMailer.createTransport(transportOptions);
 
   const mailOptions: Mail.Options = {

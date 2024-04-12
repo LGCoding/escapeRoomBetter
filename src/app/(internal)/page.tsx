@@ -63,7 +63,6 @@ export default function Home() {
                       <Formik
                         validationSchema={schema}
                         onSubmit={(values, _) => {
-                          console.log("test");
                           login.mutate(values, {
                             onSuccess: (result) => {
                               if (result.wasError) {

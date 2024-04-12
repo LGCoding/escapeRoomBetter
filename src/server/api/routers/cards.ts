@@ -102,7 +102,6 @@ export const cardRouter = createTRPCRouter({
     .mutation(async ({ input, ctx }) => {
       try {
         if (ctx.session?.role === "ADMIN") {
-          console.log("xsdgvxdgsdgsd");
           if (input.image) {
             await ctx.db.card.create({
               data: {

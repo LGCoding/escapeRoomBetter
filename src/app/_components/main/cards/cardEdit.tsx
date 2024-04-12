@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { Button, Card, Form, OverlayTrigger, Popover } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
 import Draggable from "react-draggable";
-import IconInput from "../iconInput/IconInput";
 import styles from "./cards.module.css";
 import type { CardType } from "./CardShared";
 import { siteOptionsContext } from "~/app/(internal)/layoutStuff";
@@ -42,8 +41,17 @@ function Text({
   if (text) {
     return (
       <OverlayTrigger
-        placement={"top"}
+        placement={"auto"}
         show={showTextPopup}
+        trigger={"click"}
+        rootClose={true}
+        //@ts-expect-error bootstrap screwed up
+        onHide={() => {
+          setShowTextPopup(false);
+        }}
+        onToggle={() => {
+          setShowTextPopup(!showTextPopup);
+        }}
         overlay={
           <Popover key={"textPopover" + i}>
             <Popover.Header key={"textHeader" + i} as="h3">
@@ -287,7 +295,6 @@ export default function Cards({
   //   const [rem, setRem] = useState(parentWidth / 160);
   const [test, setTest] = useState(100 / 160);
   const [showImagePopup, setShowImagePopup] = useState(false);
-  const [showTitlePopup, setShowTitlePopup] = useState(false);
   const nodeRef = React.useRef<null>(null);
   const bodyRef = React.useRef<null>(null);
   const [currentCard, setCurrentCard] = useState<CardType>(cardInput);
@@ -319,55 +326,16 @@ export default function Cards({
           padding: 0.03 * test + "px",
         }}
       >
-        <OverlayTrigger
-          placement={"bottom"}
-          show={showTitlePopup}
-          overlay={
-            <Popover key="imagePopover">
-              <Popover.Header as="h3">
-                Name
-                <Button
-                  style={{
-                    paddingLeft: ".25rem",
-                    paddingRight: ".25rem",
-                    paddingTop: "0rem",
-                    paddingBottom: "0rem",
-                    float: "right",
-                    marginTop: "-.25rem",
-                  }}
-                  variant="outline-danger"
-                  onClick={() => setShowTitlePopup(false)}
-                >
-                  X
-                </Button>
-              </Popover.Header>
-              <Popover.Body key="imageBody">
-                <IconInput
-                  onChange={(text) => {
-                    if (onChange) {
-                      console.log(currentCard.isStart);
-                      onChange({ ...currentCard, title: text });
-                    }
-                    // setCurrentCard({ ...currentCard, title: text });
-                  }}
-                  initialValue={currentCard.title}
-                />
-              </Popover.Body>
-            </Popover>
-          }
+        <h1
+          style={{
+            fontSize: 0.2 * test + "px",
+            gridArea: "a",
+            margin: 0,
+          }}
+          className="text-center"
         >
-          <h1
-            style={{
-              fontSize: 0.2 * test + "px",
-              gridArea: "a",
-              margin: 0,
-            }}
-            onClick={() => setShowTitlePopup(true)}
-            className="text-center"
-          >
-            {currentCard.title || "___"}
-          </h1>
-        </OverlayTrigger>
+          {currentCard.title || "___"}
+        </h1>
         <div style={{ gridArea: "b", position: "relative", overflow: "clip" }}>
           {currentCard.texts.map((object, i) => (
             <Text
@@ -385,6 +353,15 @@ export default function Cards({
           {currentCard.image ? (
             <OverlayTrigger
               placement={"auto"}
+              trigger={"click"}
+              rootClose={true}
+              //@ts-expect-error bootstrap screwed up
+              onHide={() => {
+                setShowImagePopup(false);
+              }}
+              onToggle={() => {
+                setShowImagePopup(!showImagePopup);
+              }}
               show={showImagePopup}
               overlay={
                 <Popover key="imagePopover">

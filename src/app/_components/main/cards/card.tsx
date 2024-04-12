@@ -1,10 +1,10 @@
 "use client";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Card } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
+import { siteOptionsContext } from "~/app/(internal)/layoutStuff";
 import styles from "./cards.module.css";
 import { type CardType } from "./CardShared";
-import { siteOptionsContext } from "~/app/(internal)/layoutStuff";
 
 interface CardProps {
   cardInput: CardType;
