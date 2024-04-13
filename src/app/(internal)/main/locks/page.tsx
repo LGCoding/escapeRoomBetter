@@ -21,6 +21,8 @@ export default function Locks() {
           confirmButtonText: "ok",
         });
       } else {
+        const audio = new Audio("/audio/lock.mp3");
+        void audio.play();
         swal({
           icon: "success",
           title: "Locked Open",

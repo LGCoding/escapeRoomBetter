@@ -44,6 +44,8 @@ export default function Cards({
         onClick={(e) => {
           if (!onClick) {
             if (!flipCard) {
+              const audio = new Audio("/audio/card.mp3");
+              void audio.play();
               setFlipCard(true);
               return;
             }

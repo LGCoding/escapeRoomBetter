@@ -41,6 +41,7 @@ function QrNoSSR() {
             });
           }
         }}
+        audio={true}
         onError={(error) => console.log(error?.message)}
       />
     </>

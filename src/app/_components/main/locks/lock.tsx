@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import { LockFill, UnlockFill } from "react-bootstrap-icons";
 import styles from "./lock.module.css";
 import { characters, type LockType } from "./lockShared";
 import Image from "react-bootstrap/Image";
