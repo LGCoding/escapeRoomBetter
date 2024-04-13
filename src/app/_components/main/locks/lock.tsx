@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { LockFill, UnlockFill } from "react-bootstrap-icons";
 import styles from "./lock.module.css";
 import { characters, type LockType } from "./lockShared";
+import Image from "react-bootstrap/Image";
 
 interface LockProps {
   lock: LockType;
@@ -43,24 +44,28 @@ export default function Locks({
   };
   return (
     <div className={"relative inline-block " + styles.lock}>
-      {open ? (
-        <UnlockFill
-          style={{ position: "absolute", left: "1.2rem" }}
-          className="absolute"
-          size="10rem"
-        />
-      ) : (
-        <LockFill
-          onClick={() => {
-            if (onClick) {
-              onClick();
-              return;
-            }
+      <div
+        style={{
+          perspective: "1000px",
+          float: "none",
+        }}
+      >
+        <Image
+          style={{
+            width: "10rem",
+            position: "absolute",
           }}
-          className="absolute"
-          size="10rem"
+          alt="test"
+          src="/images/lock-fill2.svg"
         />
-      )}
+        <div
+          className={`${styles.shackleImage} ${open ? styles.open : ""}`}
+
+          // alt="test"
+          // src="/images/lock-fill.svg"
+        ></div>
+      </div>
+
       <div
         className={styles.shackle}
         onClick={() => {

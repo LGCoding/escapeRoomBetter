@@ -37,3 +37,22 @@
   position: absolute;
   display: block;
 }
+.shackleImage {
+  width: 10rem;
+  height: 10rem;
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+  position: absolute;
+  display: block;
+  top: 0.25rem;
+  transform: rotateY(0deg);
+  transform-origin: 6.75rem 2rem;
+  transform-style: preserve-3d;
+  transition: transform 0.6s;
+  background-image: url("/images/lock-fill.svg");
+  background-size: 10rem 10rem;
+  box-sizing: border-box;
+}
+.shackleImage.open {
+  transform: rotateY(-180deg);
+}
