@@ -13,3 +13,22 @@ html,
   width: 100%;
   overflow: hidden;
 }
+
+thead {
+  border: 0.125rem solid black;
+  border-bottom: 0.3rem double black;
+}
+
+tr:nth-child(even) td {
+  background-color: rgb(225, 225, 225);
+}
+
+th,
+td {
+  border: 0.125rem solid black;
+  padding: 0.25rem;
+}
+
+table {
+  border: 0.125rem solid black;
+}
