@@ -12,6 +12,8 @@ import deflist from "markdown-it-deflist";
 import foot from "markdown-it-footnote";
 //@ts-expect-error no types
 import mark from "markdown-it-mark";
+//@ts-expect-error no types
+import list from "markdown-it-task-lists";
 
 // Enable everything
 const md = markdownit({
@@ -29,8 +31,9 @@ const md = markdownit({
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   .use(foot)
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  .use(mark);
-//   .use(table);
+  .use(mark)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  .use(list);
 
 export default function Main() {
   const siteOptions = useContext(siteOptionsContext);

@@ -36,6 +36,7 @@
     "markdown-it-mark": "^4.0.0",
     "markdown-it-sub": "^2.0.0",
     "markdown-it-sup": "^2.0.0",
+    "markdown-it-task-lists": "^2.1.1",
     "next": "^14.0.4",
     "nodemailer": "^6.9.8",
     "prisma-enum-generator": "^1.0.3",
