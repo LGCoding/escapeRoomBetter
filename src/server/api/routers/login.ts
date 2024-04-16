@@ -227,7 +227,7 @@ export const loginRouter = createTRPCRouter({
             "Use this link to reset your password you have ",
             env.NODE_ENV === "development"
               ? `http://localhost:3000/resetpassword?data=${encrypt(JSON.stringify({ email: input.email, resetId: id }))}`
-              : `https://escapestsebs.com/resetpassword?data=${encrypt(JSON.stringify({ email: input.email, resetId: id }))}`,
+              : `https://www.escapestsebs.com/resetpassword?data=${encrypt(JSON.stringify({ email: input.email, resetId: id }))}`,
           );
           return { wasError: false, data: "Failed to create new reset" };
         } catch (error) {
