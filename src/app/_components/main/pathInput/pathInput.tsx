@@ -19,9 +19,6 @@ export default function PathInput({
 }) {
   const [pathId, setPathId] = useState<string>();
   const [show, setShow] = useState(false);
-  function openInput() {
-    setShow(true);
-  }
   useEffect(() => {
     if (value) setPathId(value);
   }, [value]);

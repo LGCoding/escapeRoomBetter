@@ -72,6 +72,12 @@ export default function SignUp({}) {
                     <Formik
                       validationSchema={schema}
                       onSubmit={async (values, _) => {
+                        swal({
+                          title: "Please wait",
+                          mainText: "Wait",
+                          icon: "info",
+                          cancelButton: false,
+                        });
                         register.mutate(values, {
                           onSuccess: (result) => {
                             if (!result) {

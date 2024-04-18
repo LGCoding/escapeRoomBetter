@@ -20,6 +20,14 @@ export interface Session {
   userId: string;
   role: "ADMIN" | "USER";
 }
+const transportOptions: SMTPTransport.Options = {
+  service: "gmail",
+  auth: {
+    user: env.EMAIL,
+    pass: env.EMAIL_PASSWORD,
+  },
+  logger: true,
+};
 
 async function sendEmail(
   to: string,
@@ -27,15 +35,6 @@ async function sendEmail(
   text: string,
   link: string | undefined,
 ) {
-  const transportOptions: SMTPTransport.Options = {
-    service: "gmail",
-    auth: {
-      user: env.EMAIL,
-      pass: env.EMAIL_PASSWORD,
-    },
-    logger: true,
-  };
-
   const transporter = NodeMailer.createTransport(transportOptions);
   await new Promise((resolve, reject) => {
     // verify connection configuration
@@ -108,7 +107,7 @@ export const loginRouter = createTRPCRouter({
           "Use this link to register your email ",
           env.NODE_ENV === "development"
             ? `http://localhost:3000/register?data=${encrypt(JSON.stringify(input))}`
-            : `https://escapestsebs.com/register?data=${encrypt(JSON.stringify(input))}`,
+            : `https://www.escapestsebs.com/register?data=${encrypt(JSON.stringify(input))}`,
         );
         return true;
       } else {
