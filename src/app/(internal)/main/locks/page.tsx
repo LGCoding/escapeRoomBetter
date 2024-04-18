@@ -85,6 +85,7 @@ export default function Locks() {
   return (
     <>
       <h2 className="fw-bold text-uppercase mb-2 text-center ">Locks</h2>
+
       <Accordion defaultActiveKey="0">
         {Object.keys(locks).map((el, i) => {
           const record = locks[el];

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./lock.module.css";
 import { characters, type LockType } from "./lockShared";
 import Image from "react-bootstrap/Image";
@@ -19,6 +19,8 @@ export default function Locks({
 }: LockProps) {
   const [currentComboIndex, setCurrentComboIndex] = useState([0, 0, 0, 0]);
   const [lastTried, setLastTried] = useState("");
+  const ref = useRef<HTMLInputElement>(null);
+  const [currentTumbler, setCurrentTumbler] = useState(0);
   const [shake, setShake] = useState(false);
   const changeCurrentCombo = (
     index: number,
@@ -54,6 +56,22 @@ export default function Locks({
         (shake ? " " + styles.shake : "")
       }
     >
+      <input
+        ref={ref}
+        onChange={(e) => {
+          const value = e.currentTarget.value.toUpperCase();
+          setCurrentComboIndex(
+            currentComboIndex.map((v, i) => {
+              const index = characters.findIndex((v) => v === value);
+              if (i === currentTumbler) return index === -1 ? v : index;
+              else return v;
+            }),
+          );
+          e.currentTarget.value = "";
+        }}
+        style={{ position: "absolute", left: "0", width: 0 }}
+      />
+
       <div
         style={{
           perspective: "1000px",
@@ -117,6 +135,8 @@ export default function Locks({
       >
         <span
           onClick={(e) => {
+            if (ref.current) ref.current.focus();
+            setCurrentTumbler(0);
             changeCurrentCombo(0, e);
           }}
           className={"bg-light text-primary " + styles.lockNumber}
@@ -125,6 +145,8 @@ export default function Locks({
         </span>
         <span
           onClick={(e) => {
+            if (ref.current) ref.current.focus();
+            setCurrentTumbler(1);
             changeCurrentCombo(1, e);
           }}
           className={"bg-light text-primary " + styles.lockNumber}
@@ -133,6 +155,8 @@ export default function Locks({
         </span>
         <span
           onClick={(e) => {
+            if (ref.current) ref.current.focus();
+            setCurrentTumbler(2);
             changeCurrentCombo(2, e);
           }}
           className={"bg-light text-primary " + styles.lockNumber}
@@ -141,6 +165,8 @@ export default function Locks({
         </span>
         <span
           onClick={(e) => {
+            if (ref.current) ref.current.focus();
+            setCurrentTumbler(3);
             changeCurrentCombo(3, e);
           }}
           className={"bg-light text-primary " + styles.lockNumber}
