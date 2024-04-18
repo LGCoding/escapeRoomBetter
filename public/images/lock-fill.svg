@@ -25,16 +25,17 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:zoom="29.33995"
-     inkscape:cx="8.929804"
-     inkscape:cy="12.559667"
-     inkscape:window-width="1472"
-     inkscape:window-height="814"
+     inkscape:cx="4.8398174"
+     inkscape:cy="8.4526388"
+     inkscape:window-width="1312"
+     inkscape:window-height="449"
      inkscape:window-x="0"
      inkscape:window-y="37"
-     inkscape:window-maximized="1"
+     inkscape:window-maximized="0"
      inkscape:current-layer="svg1" />
   <path
      d="m 8,1 c 1.1045695,0 2,0.8954305 2,2 V 7 H 6 V 3 C 6,1.8954305 6.8954305,1 8,1 m 3,6 V 3 C 11,-0.99999826 5,-0.99999826 5,3 v 4"
      id="path1"
-     sodipodi:nodetypes="csccsccssc" />
+     sodipodi:nodetypes="csccsccssc"
+     style="fill:#000000" />
 </svg>

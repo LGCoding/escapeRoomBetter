@@ -47,4 +47,5 @@ export type LockType = {
   open?: boolean;
   unlockPathsId?: string;
   pathId?: string;
+  victoryLock: boolean;
 };

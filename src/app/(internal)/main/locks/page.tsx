@@ -25,7 +25,7 @@ export default function Locks() {
         void audio.play();
         swal({
           icon: "success",
-          title: "Locked Open",
+          title: e.data,
           cancelButton: false,
           confirmButtonText: "ok",
         });

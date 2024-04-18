@@ -144,6 +144,7 @@ model Lock {
     pathId        String?
     UnlockPath    Path?     @relation(name: "unlock", fields: [unlockPathsId], references: [id])
     unlockPathsId String?
+    victoryLock   Boolean   @default(false)
 
     @@index([pathId])
     @@index([unlockPathsId])

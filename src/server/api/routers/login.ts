@@ -28,27 +28,35 @@ const transportOptions: SMTPTransport.Options = {
   },
   logger: true,
 };
+let transporter:
+  | NodeMailer.Transporter<SMTPTransport.SentMessageInfo>
+  | undefined;
 
-async function sendEmail(
+export async function sendEmail(
   to: string,
   subject: string,
   text: string,
-  link: string | undefined,
+  link?: string,
 ) {
-  const transporter = NodeMailer.createTransport(transportOptions);
-  await new Promise((resolve, reject) => {
-    // verify connection configuration
-    transporter.verify(function (error, success) {
-      if (error) {
-        console.log(error);
-        reject(error);
-      } else {
-        console.log("Server is ready to take our messages");
-        resolve(success);
+  if (!transporter) {
+    transporter = NodeMailer.createTransport(transportOptions);
+    await new Promise((resolve, reject) => {
+      // verify connection configuration
+      if (!transporter) {
+        reject("no Transporter");
+        return;
       }
+      transporter.verify(function (error, success) {
+        if (error) {
+          console.log(error);
+          reject(error);
+        } else {
+          console.log("Server is ready to take our messages");
+          resolve(success);
+        }
+      });
     });
-  });
-
+  }
   const mailOptions: Mail.Options = {
     from: "escapestseb@gmail.com", // sender address
     to: to, // list of receivers
@@ -57,6 +65,7 @@ async function sendEmail(
   };
   await new Promise((resolve, reject) => {
     // send mail
+    if (!transporter) return;
     transporter.sendMail(mailOptions, (err, info) => {
       if (err) {
         console.error(err);

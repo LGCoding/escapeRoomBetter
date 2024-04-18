@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./lock.module.css";
 import { characters, type LockType } from "./lockShared";
 import Image from "react-bootstrap/Image";
@@ -18,6 +18,8 @@ export default function Locks({
   onClick,
 }: LockProps) {
   const [currentComboIndex, setCurrentComboIndex] = useState([0, 0, 0, 0]);
+  const [lastTried, setLastTried] = useState("");
+  const [shake, setShake] = useState(false);
   const changeCurrentCombo = (
     index: number,
     e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
@@ -41,8 +43,17 @@ export default function Locks({
       }),
     );
   };
+  useEffect(() => {
+    if (shake === true) setTimeout(() => setShake(false), 500);
+  }, [shake]);
   return (
-    <div className={"relative inline-block " + styles.lock}>
+    <div
+      className={
+        "relative inline-block " +
+        styles.lock +
+        (shake ? " " + styles.shake : "")
+      }
+    >
       <div
         style={{
           perspective: "1000px",
@@ -50,34 +61,46 @@ export default function Locks({
         }}
       >
         <Image
+          className={`${styles.shackleImage} ${open ? styles.open : ""}`}
+          alt="test"
+          style={{
+            filter: lock.victoryLock
+              ? "invert(85%) sepia(25%) saturate(3783%) hue-rotate(347deg) brightness(92%) contrast(85%)"
+              : "invert(6%) sepia(6%) saturate(1849%) hue-rotate(191deg) brightness(90%) contrast(86%)",
+          }}
+          src="/images/lock-fill.svg"
+        />
+        <Image
           style={{
             width: "10rem",
             position: "absolute",
+            filter: lock.victoryLock
+              ? "invert(85%) sepia(25%) saturate(3783%) hue-rotate(347deg) brightness(92%) contrast(85%)"
+              : "invert(6%) sepia(6%) saturate(1849%) hue-rotate(191deg) brightness(90%) contrast(86%)",
           }}
           alt="test"
           src="/images/lock-fill2.svg"
         />
-        <div
-          className={`${styles.shackleImage} ${open ? styles.open : ""}`}
-
-          // alt="test"
-          // src="/images/lock-fill.svg"
-        ></div>
       </div>
 
       <div
         className={styles.shackle}
         onClick={() => {
           if (!open) {
-            let password = "";
-            for (let i = 0; i < 4; i++) {
-              password += characters[currentComboIndex[i] ?? 0];
-            }
             if (onClick) {
               onClick();
               return;
             }
-            openCallback(password);
+            let password = "";
+            for (let i = 0; i < 4; i++) {
+              password += characters[currentComboIndex[i] ?? 0];
+            }
+            if (password == lastTried) {
+              if (!shake) setShake(true);
+            } else {
+              setLastTried(password);
+              openCallback(password);
+            }
           }
         }}
       ></div>

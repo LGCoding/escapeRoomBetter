@@ -109,7 +109,6 @@ export default function Admin() {
               const mimeType = el.image.imageType;
               return {
                 ...el,
-
                 image: {
                   ...el.image,
                   href: `data:${mimeType};base64,${el.image.image}`,
@@ -166,6 +165,7 @@ export default function Admin() {
     title: "",
     cardAddIds: [],
     cardRemoveIds: [],
+    victoryLock: false,
   });
   const [currentIndex, setCurrentIndex] = useState<number>(-1);
   const [comboErrors, setComboErrors] = useState<string | null>("Empty");
@@ -215,6 +215,7 @@ export default function Admin() {
             cardRemoveIds: [],
             combination: "0000",
             title: "",
+            victoryLock: false,
           });
           openModal("0000");
         }}
@@ -311,6 +312,17 @@ export default function Admin() {
               setCurrentLock({ ...currentLock, unlockPathsId: v })
             }
             paths={paths}
+          />
+          <Form.Check
+            checked={currentLock.victoryLock}
+            onChange={(e) =>
+              setCurrentLock({
+                ...currentLock,
+                victoryLock: e.currentTarget.checked,
+              })
+            }
+            type="switch"
+            label="Victory Lock"
           />
         </Modal.Body>
         <Modal.Footer>

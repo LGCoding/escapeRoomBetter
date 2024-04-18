@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import { sendEmail } from "./login";
 
 export const lockRouter = createTRPCRouter({
   getLocksAdmin: publicProcedure.query(
@@ -17,6 +18,7 @@ export const lockRouter = createTRPCRouter({
             cardRemoveIds: string[];
             unlockPathsId?: string;
             pathId?: string;
+            victoryLock: boolean;
           }[];
         }
     > => {
@@ -30,6 +32,7 @@ export const lockRouter = createTRPCRouter({
             title: true,
             pathId: true,
             unlockPathsId: true,
+            victoryLock: true,
           },
         });
         return {
@@ -57,6 +60,7 @@ export const lockRouter = createTRPCRouter({
       z.object({
         title: z.string(),
         combination: z.string(),
+        victoryLock: z.boolean(),
         cardAddIds: z.array(z.string()),
         cardRemoveIds: z.array(z.string()),
         unlockPathsId: z.union([z.string(), z.undefined()]),
@@ -70,6 +74,7 @@ export const lockRouter = createTRPCRouter({
             data: {
               title: input.title,
               combination: input.combination,
+              victoryLock: input.victoryLock,
               Path: input.pathId
                 ? {
                     connect: {
@@ -155,6 +160,7 @@ export const lockRouter = createTRPCRouter({
         id: z.string(),
         unlockPathsId: z.union([z.string(), z.undefined()]),
         pathId: z.union([z.string(), z.undefined()]),
+        victoryLock: z.boolean(),
       }),
     )
     .mutation(async ({ input, ctx }) => {
@@ -176,6 +182,7 @@ export const lockRouter = createTRPCRouter({
               data: {
                 title: input.title,
                 combination: input.combination,
+                victoryLock: input.victoryLock,
                 Path: input.pathId
                   ? {
                       connect: {
@@ -277,6 +284,7 @@ export const lockRouter = createTRPCRouter({
             select: {
               combination: true,
               unlockPathsId: true,
+              victoryLock: true,
             },
           });
           if (lock?.combination === input.combination) {
@@ -312,6 +320,14 @@ export const lockRouter = createTRPCRouter({
                 },
               });
             }
+            if (lock.victoryLock) {
+              await sendEmail(
+                "escapestsebs@gmail.com",
+                "Someone Completed the Game",
+                ctx.session.email + " completed the game",
+              );
+              return { wasError: false, data: "You completed the game" };
+            }
             return { wasError: false, data: "Opened lock" };
           } else {
             return { wasError: true, data: "Incorrect combination" };
@@ -333,6 +349,7 @@ export const lockRouter = createTRPCRouter({
             title: string;
             id: string;
             combination: string;
+            victoryLock: boolean;
             path: {
               name: string;
               color: string;
@@ -368,6 +385,7 @@ export const lockRouter = createTRPCRouter({
           combination: true,
           id: true,
           title: true,
+          victoryLock: true,
           Path: {
             select: {
               color: true,
