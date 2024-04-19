@@ -265,7 +265,7 @@ export default function Admin() {
             value={currentQr.cardRemoveIds}
             label="Cards to remove"
             onChange={(v) => setCurrentQr({ ...currentQr, cardRemoveIds: v })}
-            multiple={false}
+            multiple={true}
             cards={cards}
           />{" "}
           <LockInput
