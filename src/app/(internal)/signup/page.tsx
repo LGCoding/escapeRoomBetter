@@ -1,7 +1,7 @@
 "use client";
 import { Formik } from "formik";
 import { useRouter } from "next/navigation";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import {
   Button,
   Card,
@@ -45,6 +45,7 @@ export default function SignUp({}) {
 
   const router = useRouter();
   const swal = useContext(swalContext);
+  const [canQuery, setCanQuery] = useState(true);
 
   const register = api.login.sendRegisterEmail.useMutation();
 
@@ -72,26 +73,27 @@ export default function SignUp({}) {
                     <Formik
                       validationSchema={schema}
                       onSubmit={async (values, _) => {
-                        swal({
-                          title: "Please wait",
-                          mainText: "Wait",
-                          icon: "info",
-                          cancelButton: false,
-                        });
-                        register.mutate(values, {
-                          onSuccess: (result) => {
-                            if (!result) {
-                              swal({
-                                title: "Error",
-                                mainText: "That Email is already Registered",
-                                icon: "error",
-                                cancelButton: false,
-                              });
-                            } else {
-                              void router.push("/email");
-                            }
-                          },
-                        });
+                        if (canQuery) {
+                          register.mutate(values, {
+                            onSuccess: (result) => {
+                              setCanQuery(true);
+                              if (!result) {
+                                swal({
+                                  title: "Error",
+                                  mainText: "That Email is already Registered",
+                                  icon: "error",
+                                  cancelButton: false,
+                                });
+                              } else {
+                                void router.push("/email");
+                              }
+                            },
+                            onError: () => {
+                              setCanQuery(true);
+                            },
+                          });
+                          setCanQuery(false);
+                        }
                       }}
                       initialValues={{
                         name: "",
@@ -178,7 +180,11 @@ export default function SignUp({}) {
                             controlId="formBasicCheckbox"
                           ></FormGroup>
                           <div className="d-grid">
-                            <Button variant="primary" type="submit">
+                            <Button
+                              className={canQuery ? "" : "dotDotDot"}
+                              variant="primary"
+                              type="submit"
+                            >
                               Create Account
                             </Button>
                           </div>

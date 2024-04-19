@@ -1,7 +1,7 @@
 "use client";
 import { Formik } from "formik";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import {
   Button,
   Card,
@@ -39,6 +39,7 @@ export default function SignUp({}) {
   const searchParams = useSearchParams();
   const query: string | null = searchParams.get("data");
   const siteOptions = useContext(siteOptionsContext);
+  const [canQuery, setCanQuery] = useState(true);
 
   const reset = api.login.resetPassword.useMutation();
 
@@ -66,29 +67,36 @@ export default function SignUp({}) {
                     <Formik
                       validationSchema={schema}
                       onSubmit={async (values, _) => {
-                        reset.mutate(
-                          { data: query ?? "", password: values.password },
-                          {
-                            onSuccess: (result) => {
-                              if (result.wasError) {
-                                swal({
-                                  title: "Error",
-                                  mainText: result.data,
-                                  icon: "error",
-                                  cancelButton: false,
-                                });
-                                void router.push("/");
-                              } else {
-                                swal({
-                                  icon: "success",
-                                  mainText: "Password Reset",
-                                  cancelButton: false,
-                                });
-                                void router.push("/");
-                              }
+                        if (canQuery) {
+                          reset.mutate(
+                            { data: query ?? "", password: values.password },
+                            {
+                              onSuccess: (result) => {
+                                setCanQuery(true);
+                                if (result.wasError) {
+                                  swal({
+                                    title: "Error",
+                                    mainText: result.data,
+                                    icon: "error",
+                                    cancelButton: false,
+                                  });
+                                  void router.push("/");
+                                } else {
+                                  swal({
+                                    icon: "success",
+                                    mainText: "Password Reset",
+                                    cancelButton: false,
+                                  });
+                                  void router.push("/");
+                                }
+                              },
+                              onError: () => {
+                                setCanQuery(true);
+                              },
                             },
-                          },
-                        );
+                          );
+                        }
+                        setCanQuery(false);
                       }}
                       initialValues={{
                         password: "",
@@ -139,8 +147,12 @@ export default function SignUp({}) {
                             controlId="formBasicCheckbox"
                           ></FormGroup>
                           <div className="d-grid">
-                            <Button variant="primary" type="submit">
-                              Create Account
+                            <Button
+                              className={canQuery ? "" : "dotDotDot"}
+                              variant="primary"
+                              type="submit"
+                            >
+                              Change Password
                             </Button>
                           </div>
                         </Form>

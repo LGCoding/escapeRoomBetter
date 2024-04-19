@@ -37,3 +37,37 @@ table {
   left: -1rem;
   top: -0.75rem;
 }
+
+.dotDotDot::after {
+  content: "";
+  animation-name: dotDotDot;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  font-size: 1.5rem;
+  position: relative;
+  left: 2rem;
+}
+
+@keyframes dotDotDot {
+  0% {
+    content: "";
+  }
+  17% {
+    content: ".";
+  }
+  34% {
+    content: "..";
+  }
+  48% {
+    content: "...";
+  }
+  62% {
+    content: "..";
+  }
+  76% {
+    content: ".";
+  }
+  100% {
+    content: "";
+  }
+}

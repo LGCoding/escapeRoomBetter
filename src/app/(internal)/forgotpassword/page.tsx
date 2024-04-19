@@ -1,7 +1,7 @@
 "use client";
 import { Formik } from "formik";
 import { useRouter } from "next/navigation";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import {
   Button,
   Card,
@@ -28,22 +28,8 @@ export default function ForgotPassword() {
 
   const router = useRouter();
   const swal = useContext(swalContext);
-  const resetPasswordEmail = api.login.resetPasswordEmail.useMutation({
-    onSuccess: (result) => {
-      if (result.wasError) {
-        swal({
-          title: "Error",
-          mainText: result.data,
-          icon: "error",
-          cancelButton: false,
-        });
-        router.push("/");
-      } else {
-        localStorage.setItem("session", result.data);
-        router.push("/main");
-      }
-    },
-  });
+  const [canQuery, setCanQuery] = useState(true);
+  const resetPasswordEmail = api.login.resetPasswordEmail.useMutation();
   return (
     <div>
       <Container>
@@ -68,31 +54,39 @@ export default function ForgotPassword() {
                     <Formik
                       validationSchema={schema}
                       onSubmit={async (values, _) => {
-                        resetPasswordEmail.mutate(
-                          { email: values.email },
-                          {
-                            onSuccess: (result) => {
-                              if (result.wasError) {
-                                swal({
-                                  title: "Error",
-                                  mainText: result.data,
-                                  icon: "error",
-                                  cancelButton: false,
-                                });
-                                void router.push("/");
-                              } else {
-                                swal({
-                                  icon: "success",
-                                  title: "Email",
-                                  mainText:
-                                    "Sent an Email with Password Reset Link",
-                                  cancelButton: false,
-                                });
-                                void router.push("/");
-                              }
+                        if (canQuery) {
+                          resetPasswordEmail.mutate(
+                            { email: values.email },
+                            {
+                              onSuccess: (result) => {
+                                setCanQuery(true);
+                                if (result.wasError) {
+                                  swal({
+                                    title: "Error",
+                                    mainText: result.data,
+                                    icon: "error",
+                                    cancelButton: false,
+                                  });
+                                  void router.push("/");
+                                } else {
+                                  swal({
+                                    icon: "success",
+                                    title: "Email",
+                                    mainText:
+                                      "Sent an Email with Password Reset Link",
+                                    cancelButton: false,
+                                  });
+                                  void router.push("/");
+                                }
+                              },
+
+                              onError: () => {
+                                setCanQuery(true);
+                              },
                             },
-                          },
-                        );
+                          );
+                        }
+                        setCanQuery(false);
                       }}
                       initialValues={{
                         email: "",
@@ -124,8 +118,12 @@ export default function ForgotPassword() {
                                 {errors.email}
                               </Form.Control.Feedback>
                             </FormGroup>
-                            <Button variant="primary" type="submit">
-                              Create Account
+                            <Button
+                              className={canQuery ? "" : "dotDotDot"}
+                              variant="primary"
+                              type="submit"
+                            >
+                              Change Password
                             </Button>
                           </div>
                           <div className="mt-3">

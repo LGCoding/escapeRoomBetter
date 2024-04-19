@@ -1,6 +1,6 @@
 "use client";
 import { Formik } from "formik";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import {
   Button,
   Card,
@@ -34,6 +34,7 @@ export default function Home() {
   const login = api.login.loginUser.useMutation();
   const swal = useContext(swalContext);
   const router = useRouter();
+  const [canQuery, setCanQuery] = useState(true);
 
   return (
     <>
@@ -63,21 +64,29 @@ export default function Home() {
                       <Formik
                         validationSchema={schema}
                         onSubmit={(values, _) => {
-                          login.mutate(values, {
-                            onSuccess: (result) => {
-                              if (result.wasError) {
-                                swal({
-                                  title: "Error",
-                                  mainText: result.data,
-                                  icon: "error",
-                                  cancelButton: false,
-                                });
-                              } else {
-                                localStorage.setItem("session", result.data);
-                                router.push("/main");
-                              }
-                            },
-                          });
+                          if (canQuery) {
+                            login.mutate(values, {
+                              onSuccess: (result) => {
+                                setCanQuery(true);
+                                if (result.wasError) {
+                                  swal({
+                                    title: "Error",
+                                    mainText: result.data,
+                                    icon: "error",
+                                    cancelButton: false,
+                                  });
+                                } else {
+                                  localStorage.setItem("session", result.data);
+                                  router.push("/main");
+                                }
+                              },
+                              onError: () => {
+                                setCanQuery(true);
+                              },
+                            });
+                          }
+
+                          setCanQuery(false);
                         }}
                         initialValues={{
                           email: "",
@@ -147,7 +156,11 @@ export default function Home() {
                               </p>
                             </FormGroup>
                             <div className="d-grid">
-                              <Button variant="primary" type="submit">
+                              <Button
+                                className={canQuery ? "" : "dotDotDot"}
+                                variant="primary"
+                                type="submit"
+                              >
                                 Login
                               </Button>
                             </div>
