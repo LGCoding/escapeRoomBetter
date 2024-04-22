@@ -10,6 +10,8 @@ import { api } from "~/trpc/react";
 export default function Admin() {
   const swal = useContext(swalContext);
   const [show, setShow] = useState(false);
+  const [sortMode, setSortMode] = useState("name");
+  const [reverseOrder, setReverseOrder] = useState(false);
   const usersQuery = api.users.getUsersAdmin.useQuery(undefined, {
     enabled: false,
   });
@@ -139,20 +141,94 @@ export default function Admin() {
   return (
     <>
       <h2 className="fw-bold text-uppercase text-center ">Admin</h2>
-      {users.map((el, i) => {
-        return (
-          <User
-            onClick={() => {
-              setCurrentUser(el);
-              setCurrentIndex(i);
-              setShow(true);
-            }}
-            key={i}
-            max={max ?? {}}
-            user={el}
-          />
-        );
-      })}
+      <Form.Check
+        inline
+        label="Name"
+        name="group1"
+        type="radio"
+        checked={sortMode === "name"}
+        onChange={(e) => {
+          if (e.currentTarget.checked) setSortMode("name");
+        }}
+        id={`inline-1`}
+      />
+      <Form.Check
+        inline
+        label="Progress"
+        name="group1"
+        type="radio"
+        checked={sortMode === "progress"}
+        onChange={(e) => {
+          if (e.currentTarget.checked) setSortMode("progress");
+        }}
+        id={`inline-2`}
+      />
+
+      <Form.Check
+        inline
+        label="Reverse"
+        name="group"
+        type="checkbox"
+        checked={reverseOrder}
+        onChange={(e) => {
+          setReverseOrder(e.currentTarget.checked);
+        }}
+        id={`inline-3`}
+      />
+      <br />
+      {users
+        .sort((a, b) => {
+          if (sortMode === "name") {
+            if (a.name < b.name) {
+              return -1 * (reverseOrder ? -1 : 1);
+            }
+            if (a.name > b.name) {
+              return 1 * (reverseOrder ? -1 : 1);
+            }
+            return 0;
+          } else if (sortMode === "progress") {
+            if (
+              Object.values(a.unlockedLocks).reduce(
+                (total, num) => total + Math.round(num),
+                0,
+              ) <
+              Object.values(b.unlockedLocks).reduce(
+                (total, num) => total + Math.round(num),
+                0,
+              )
+            ) {
+              return 1 * (reverseOrder ? -1 : 1);
+            }
+            if (
+              Object.values(a.unlockedLocks).reduce(
+                (total, num) => total + Math.round(num),
+                0,
+              ) >
+              Object.values(b.unlockedLocks).reduce(
+                (total, num) => total + Math.round(num),
+                0,
+              )
+            ) {
+              return -1 * (reverseOrder ? -1 : 1);
+            }
+            return 0;
+          }
+          return 0;
+        })
+        .map((el, i) => {
+          return (
+            <User
+              onClick={() => {
+                setCurrentUser(el);
+                setCurrentIndex(i);
+                setShow(true);
+              }}
+              key={i}
+              max={max ?? {}}
+              user={el}
+            />
+          );
+        })}
       <Modal show={show} onHide={() => setShow(false)} enforceFocus={false}>
         <Modal.Header closeButton>
           <Modal.Title>Card Editor</Modal.Title>

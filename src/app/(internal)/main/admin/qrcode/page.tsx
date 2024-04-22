@@ -119,13 +119,14 @@ export default function Admin() {
               const mimeType = el.image.imageType;
               return {
                 ...el,
+                flipped: false,
                 image: {
                   ...el.image,
                   href: `data:${mimeType};base64,${el.image.image}`,
                 },
               } as CardType;
             }
-            return { ...el, image: undefined };
+            return { ...el, flipped: false, image: undefined };
           }),
         );
       }
