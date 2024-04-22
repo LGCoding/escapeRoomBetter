@@ -12,6 +12,11 @@ export default function Cards() {
     enabled: false,
   });
   const [cards, setCards] = useState<Record<string, CardType[]>>({});
+  const [flipped, setFlip] = useState<Record<string, boolean>>({});
+  function setFlipped(v: Record<string, boolean>) {
+    setFlip(v);
+    localStorage.setItem("flipped", JSON.stringify(v));
+  }
   useEffect(() => {
     if (cardsQuery.data) {
       if (cardsQuery.data.wasError) {
@@ -32,6 +37,7 @@ export default function Cards() {
               const mimeType = i.image.imageType;
               record.push({
                 ...i,
+                flipped: false,
                 pathsId: i.path.name,
                 image: {
                   ...i.image,
@@ -39,7 +45,12 @@ export default function Cards() {
                 },
               } as CardType);
             } else {
-              record.push({ ...i, pathsId: i.path.name, image: undefined });
+              record.push({
+                ...i,
+                flipped: false,
+                pathsId: i.path.name,
+                image: undefined,
+              });
             }
           } else {
             if (i.image) {
@@ -52,11 +63,17 @@ export default function Cards() {
                     ...i.image,
                     href: `data:${mimeType};base64,${i.image.image}`,
                   },
+                  flipped: false,
                 } as CardType,
               ];
             } else {
               sorted[i.path.id] = [
-                { ...i, pathsId: i.path.name, image: undefined },
+                {
+                  ...i,
+                  flipped: false,
+                  pathsId: i.path.name,
+                  image: undefined,
+                },
               ];
             }
           }
@@ -84,6 +101,12 @@ export default function Cards() {
     void (async () => {
       await cardsQuery.refetch();
     })();
+    try {
+      const flip = JSON.parse(
+        localStorage.getItem("flipped") ?? "{}",
+      ) as Record<string, boolean>;
+      setFlip(flip);
+    } catch (error) {}
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const [keyAdd, setKeyAdd] = useState(0);
@@ -117,7 +140,16 @@ export default function Cards() {
               <Accordion.Body style={{ padding: ".3rem" }}>
                 {record?.map((value, index) => {
                   return (
-                    <Card key={index + "Card" + keyAdd} cardInput={value} />
+                    <Card
+                      setFlipCard={(v) => {
+                        setFlipped({ ...flipped, [value.id ?? ""]: v });
+                      }}
+                      key={index + "Card" + keyAdd}
+                      cardInput={{
+                        ...value,
+                        flipped: flipped[value.id ?? ""] ?? false,
+                      }}
+                    />
                   );
                 })}
               </Accordion.Body>

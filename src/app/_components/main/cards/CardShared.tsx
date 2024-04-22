@@ -19,4 +19,5 @@ export interface CardType {
     text: string;
     color: string;
   }[];
+  flipped: boolean;
 }

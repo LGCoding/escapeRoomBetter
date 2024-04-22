@@ -100,13 +100,14 @@ export default function Admin() {
               const mimeType = el.image.imageType;
               return {
                 ...el,
+                flipped: true,
                 image: {
                   ...el.image,
                   href: `data:${mimeType};base64,${el.image.image}`,
                 },
               } as CardType;
             }
-            return { ...el, image: undefined };
+            return { ...el, flipped: true, image: undefined };
           }),
         );
       }
@@ -140,6 +141,7 @@ export default function Admin() {
     title: "",
     texts: [],
     isStart: false,
+    flipped: true,
   });
   const [currentIndex, setCurrentIndex] = useState<number>(-1);
 
@@ -234,6 +236,7 @@ export default function Admin() {
               title: "",
               texts: [],
               isStart: false,
+              flipped: true,
             });
             setShow(true);
           }}
@@ -245,7 +248,6 @@ export default function Admin() {
         <Card
           key={index + "Cardsd"}
           cardInput={value}
-          flipped={true}
           onClick={() => {
             setCurrentCard(value);
             setCurrentIndex(index);

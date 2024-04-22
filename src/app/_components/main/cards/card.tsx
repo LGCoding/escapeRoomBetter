@@ -10,6 +10,7 @@ interface CardProps {
   cardInput: CardType;
   width?: string;
   onClick?: () => void;
+  setFlipCard?: (v: boolean) => void;
   borderColor?: string;
   flipped?: boolean;
   //   parentWidth: number;
@@ -20,12 +21,11 @@ export default function Cards({
   cardInput,
   width,
   borderColor,
-  flipped,
+  setFlipCard,
   //   parentWidth,
 }: CardProps) {
   const siteOptions = useContext(siteOptionsContext);
   const [size, setSize] = useState(width ?? "10rem");
-  const [flipCard, setFlipCard] = useState(!!flipped);
   const [expanded, setExpanded] = useState(false);
   const card = useRef<HTMLDivElement | null>(null);
   const [test, setTest] = useState(100 / 160);
@@ -43,10 +43,10 @@ export default function Cards({
         style={{ width: size }}
         onClick={(e) => {
           if (!onClick) {
-            if (!flipCard) {
+            if (!cardInput.flipped) {
               const audio = new Audio("/audio/card.mp3");
               void audio.play();
-              setFlipCard(true);
+              if (setFlipCard) setFlipCard(true);
               return;
             }
             if (expanded) {
@@ -61,7 +61,9 @@ export default function Cards({
             onClick();
           }
         }}
-        className={styles.flipCard + (flipCard ? " " + styles.fliped : "")}
+        className={
+          styles.flipCard + (cardInput.flipped ? " " + styles.fliped : "")
+        }
       >
         <div className={styles.flipCardInner}>
           <Card
