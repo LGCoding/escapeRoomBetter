@@ -11,6 +11,7 @@ export default function Admin() {
   const swal = useContext(swalContext);
   const [show, setShow] = useState(false);
   const [sortMode, setSortMode] = useState("name");
+  const [sortPath, setSortPath] = useState("all");
   const [reverseOrder, setReverseOrder] = useState(false);
   const usersQuery = api.users.getUsersAdmin.useQuery(undefined, {
     enabled: false,
@@ -163,6 +164,17 @@ export default function Admin() {
         }}
         id={`inline-2`}
       />
+      <Form.Check
+        inline
+        label="Admin"
+        name="group1"
+        type="radio"
+        checked={sortMode === "admin"}
+        onChange={(e) => {
+          if (e.currentTarget.checked) setSortMode("admin");
+        }}
+        id={`inline-2`}
+      />
 
       <Form.Check
         inline
@@ -175,6 +187,28 @@ export default function Admin() {
         }}
         id={`inline-3`}
       />
+      {sortMode === "progress" ? (
+        <Form.Select
+          value={sortPath}
+          onChange={(e) => {
+            setSortPath(e.currentTarget.value);
+          }}
+          aria-label="Default select example"
+        >
+          <option value="all">All Paths</option>
+          {max
+            ? Object.keys(max).map((key) => {
+                return (
+                  <option value={key} key={key}>
+                    {max[key]?.name}
+                  </option>
+                );
+              })
+            : ""}
+        </Form.Select>
+      ) : (
+        ""
+      )}
       <br />
       {users
         .sort((a, b) => {
@@ -185,33 +219,53 @@ export default function Admin() {
             if (a.name > b.name) {
               return 1 * (reverseOrder ? -1 : 1);
             }
-            return 0;
           } else if (sortMode === "progress") {
-            if (
-              Object.values(a.unlockedLocks).reduce(
-                (total, num) => total + Math.round(num),
-                0,
-              ) <
-              Object.values(b.unlockedLocks).reduce(
-                (total, num) => total + Math.round(num),
-                0,
-              )
-            ) {
-              return 1 * (reverseOrder ? -1 : 1);
+            if (sortPath === "all") {
+              if (
+                Object.values(a.unlockedLocks).reduce(
+                  (total, num) => total + Math.round(num),
+                  0,
+                ) <
+                Object.values(b.unlockedLocks).reduce(
+                  (total, num) => total + Math.round(num),
+                  0,
+                )
+              ) {
+                return 1 * (reverseOrder ? -1 : 1);
+              }
+              if (
+                Object.values(a.unlockedLocks).reduce(
+                  (total, num) => total + Math.round(num),
+                  0,
+                ) >
+                Object.values(b.unlockedLocks).reduce(
+                  (total, num) => total + Math.round(num),
+                  0,
+                )
+              ) {
+                return -1 * (reverseOrder ? -1 : 1);
+              }
+            } else {
+              if (
+                (a.unlockedLocks[sortPath] ?? 0) <
+                (b.unlockedLocks[sortPath] ?? 0)
+              ) {
+                return 1 * (reverseOrder ? -1 : 1);
+              }
+              if (
+                (a.unlockedLocks[sortPath] ?? 0) >
+                (b.unlockedLocks[sortPath] ?? 0)
+              ) {
+                return -1 * (reverseOrder ? -1 : 1);
+              }
             }
-            if (
-              Object.values(a.unlockedLocks).reduce(
-                (total, num) => total + Math.round(num),
-                0,
-              ) >
-              Object.values(b.unlockedLocks).reduce(
-                (total, num) => total + Math.round(num),
-                0,
-              )
-            ) {
-              return -1 * (reverseOrder ? -1 : 1);
+          } else if (sortMode === "admin") {
+            if (a.role < b.role) {
+              return 1 * (reverseOrder ? 1 : -1);
             }
-            return 0;
+            if (a.role > b.role) {
+              return -1 * (reverseOrder ? 1 : -1);
+            }
           }
           return 0;
         })
