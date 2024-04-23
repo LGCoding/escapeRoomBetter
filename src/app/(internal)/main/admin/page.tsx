@@ -173,7 +173,7 @@ export default function Admin() {
         onChange={(e) => {
           if (e.currentTarget.checked) setSortMode("admin");
         }}
-        id={`inline-2`}
+        id={`inline-3`}
       />
 
       <Form.Check
@@ -185,7 +185,7 @@ export default function Admin() {
         onChange={(e) => {
           setReverseOrder(e.currentTarget.checked);
         }}
-        id={`inline-3`}
+        id={`inline`}
       />
       {sortMode === "progress" ? (
         <Form.Select
