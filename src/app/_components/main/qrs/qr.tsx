@@ -1,8 +1,9 @@
 "use client";
 import * as htmlToImage from "html-to-image";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { QRCode } from "react-qrcode-logo";
 import { type QrType } from "./qrShared";
+import { siteOptionsContext } from "~/app/(internal)/layoutStuff";
 
 interface QrProps {
   qr: QrType;
@@ -11,6 +12,7 @@ interface QrProps {
 }
 
 export default function Qr({ qr, onClick }: QrProps) {
+  const siteOptions = useContext(siteOptionsContext);
   const handleImageDownload = async () => {
     setBig(true);
     setTimeout(() => {
@@ -54,7 +56,7 @@ export default function Qr({ qr, onClick }: QrProps) {
       <QRCode
         size={big ? 1000 : 200}
         logoWidth={big ? 400 : 50}
-        logoImage="/images/logo.svg"
+        logoImage={siteOptions.icon}
         id={"print" + qr.id}
         ecLevel="H"
         value={qr.id ?? ""}

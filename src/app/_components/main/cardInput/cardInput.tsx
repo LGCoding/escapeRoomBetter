@@ -49,7 +49,7 @@ export default function CardInput({
             }}
           >
             <Popover.Header as="h3">
-              Image Size
+              Cards
               <IconInput onChange={(text) => setFilter(text)} />
               <Button
                 style={{
@@ -80,10 +80,9 @@ export default function CardInput({
                 if (el.title.includes(filter) && el.id) {
                   return (
                     <Card
-                      flipped={true}
                       width="5rem"
                       borderColor={card !== -1 ? "blue" : "black"}
-                      cardInput={el}
+                      cardInput={{ ...el, flipped: true }}
                       key={i}
                       onClick={() => {
                         if (!el.id) return;
@@ -130,8 +129,7 @@ export default function CardInput({
               return (
                 <Card
                   width="3rem"
-                  flipped={true}
-                  cardInput={card}
+                  cardInput={{ ...card, flipped: true }}
                   key={i}
                   onClick={() => ""}
                 />

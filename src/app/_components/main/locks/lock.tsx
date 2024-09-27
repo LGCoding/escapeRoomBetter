@@ -60,9 +60,11 @@ export default function Locks({
         ref={ref}
         onChange={(e) => {
           const value = e.currentTarget.value.toUpperCase();
+          setCurrentTumbler(currentTumbler + 1 === 4 ? 0 : currentTumbler + 1);
           setCurrentComboIndex(
             currentComboIndex.map((v, i) => {
               const index = characters.findIndex((v) => v === value);
+
               if (i === currentTumbler) return index === -1 ? v : index;
               else return v;
             }),

@@ -32,6 +32,7 @@ export const siteOptionsContext = createContext({
   homeText: "string;",
   icon: "string;",
   title: "string;",
+  info: "string;",
   rerender: () => {
     return;
   },
@@ -59,10 +60,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     homeText: string;
     icon: string;
     title: string;
+    info: string;
     rerender: () => void;
   }>({
     card: "",
     card2: "",
+    info: "",
     homeText: "",
     icon: "",
     title: "",
@@ -88,6 +91,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           card2: `data:image/svg+xml;base64,${siteOptionsQuery.data.data.card2}`,
           icon: `data:image/svg+xml;base64,${siteOptionsQuery.data.data.icon}`,
           title: siteOptionsQuery.data.data.title,
+          info: siteOptionsQuery.data.data.info,
           rerender: rerender,
         });
       }

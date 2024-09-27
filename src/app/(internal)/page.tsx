@@ -1,40 +1,50 @@
 "use client";
-import { Formik } from "formik";
-import { useContext, useState } from "react";
-import {
-  Button,
-  Card,
-  CardBody,
-  Col,
-  Container,
-  Form,
-  FormControl,
-  FormGroup,
-  FormLabel,
-  Row,
-} from "react-bootstrap";
+import { useContext, useEffect } from "react";
+import { Card, CardBody, Col, Container, Row } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
-import * as yup from "yup";
-// import { swalContext } from "./layout";
-import { useRouter } from "next/navigation";
-import { api } from "~/trpc/react";
 import { siteOptionsContext, swalContext } from "./layoutStuff";
+import markdownit from "markdown-it";
+//@ts-expect-error no types
+import sup from "markdown-it-sup";
+//@ts-expect-error no types
+import sub from "markdown-it-sub";
+//@ts-expect-error no types
+import deflist from "markdown-it-deflist";
+//@ts-expect-error no types
+import foot from "markdown-it-footnote";
+//@ts-expect-error no types
+import mark from "markdown-it-mark";
+//@ts-expect-error no types
+import list from "markdown-it-task-lists";
+import { redirect } from "next/navigation";
 
-const schema = yup.object({
-  email: yup.string().email().required("This field is required"),
-  password: yup
-    .string()
-    .required("This field is required")
-    .min(6, "Minimum length of 6 characters")
-    .max(20, "Maximum length of 20 characters"),
-});
+// Enable everything
+const md = markdownit({
+  html: true,
+  linkify: true,
+  typographer: true,
+  breaks: true,
+})
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  .use(sup)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  .use(sub)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  .use(deflist)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  .use(foot)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  .use(mark)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  .use(list);
 
 export default function Home() {
   const siteOptions = useContext(siteOptionsContext);
-  const login = api.login.loginUser.useMutation();
-  const swal = useContext(swalContext);
-  const router = useRouter();
-  const [canQuery, setCanQuery] = useState(true);
+  useEffect(() => {
+    if (localStorage.getItem("seenWelcome")) {
+      redirect(`/signin`);
+    }
+  }, []);
 
   return (
     <>
@@ -57,121 +67,22 @@ export default function Home() {
                         position: "relative",
                       }}
                     />
-                    <p className=" mb-5">
-                      Please enter your login and password!
-                    </p>
                     <div className="mb-3">
-                      <Formik
-                        validationSchema={schema}
-                        onSubmit={(values, _) => {
-                          if (canQuery) {
-                            login.mutate(values, {
-                              onSuccess: (result) => {
-                                setCanQuery(true);
-                                if (result.wasError) {
-                                  swal({
-                                    title: "Error",
-                                    mainText: result.data,
-                                    icon: "error",
-                                    cancelButton: false,
-                                  });
-                                } else {
-                                  localStorage.setItem("session", result.data);
-                                  router.push("/main");
-                                }
-                              },
-                              onError: () => {
-                                setCanQuery(true);
-                              },
-                            });
-                          }
-
-                          setCanQuery(false);
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: md.render(siteOptions.info),
                         }}
-                        initialValues={{
-                          email: "",
-                          password: "",
-                        }}
-                      >
-                        {({
-                          handleSubmit,
-                          handleChange,
-                          values,
-                          touched,
-                          errors,
-                        }) => (
-                          <Form noValidate onSubmit={handleSubmit}>
-                            <FormGroup
-                              className="mb-3"
-                              controlId="formBasicEmail"
-                            >
-                              <FormLabel className="text-center">
-                                Email address
-                              </FormLabel>
-                              <FormControl
-                                type="email"
-                                name="email"
-                                placeholder="Enter email"
-                                value={values.email}
-                                onChange={handleChange}
-                                isValid={touched.email && !errors.email}
-                                isInvalid={!!errors.email}
-                              />
-
-                              <Form.Control.Feedback type="invalid">
-                                {errors.email}
-                              </Form.Control.Feedback>
-                            </FormGroup>
-
-                            <FormGroup
-                              className="mb-3"
-                              controlId="formBasicPassword"
-                            >
-                              <FormLabel>Password</FormLabel>
-                              <FormControl
-                                type="password"
-                                placeholder="Password"
-                                name="password"
-                                value={values.password}
-                                onChange={handleChange}
-                                isValid={touched.password && !errors.password}
-                                isInvalid={!!errors.password}
-                              />
-
-                              <Form.Control.Feedback type="invalid">
-                                {errors.password}
-                              </Form.Control.Feedback>
-                            </FormGroup>
-                            <FormGroup
-                              className="mb-3"
-                              controlId="formBasicCheckbox"
-                            >
-                              <p className="small">
-                                <a
-                                  className="text-primary"
-                                  href="forgotpassword"
-                                >
-                                  Forgot password?
-                                </a>
-                              </p>
-                            </FormGroup>
-                            <div className="d-grid">
-                              <Button
-                                className={canQuery ? "" : "dotDotDot"}
-                                variant="primary"
-                                type="submit"
-                              >
-                                Login
-                              </Button>
-                            </div>
-                          </Form>
-                        )}
-                      </Formik>
+                      ></div>
                       <div className="mt-3">
                         <p className="mb-0  text-center">
-                          {"Don't have an account? "}
-                          <a href="signup" className="text-primary fw-bold">
-                            Sign Up
+                          <a
+                            onClick={() =>
+                              localStorage.setItem("seenWelcome", "true")
+                            }
+                            href="signin"
+                            className="text-primary fw-bold"
+                          >
+                            Login
                           </a>
                         </p>
                       </div>

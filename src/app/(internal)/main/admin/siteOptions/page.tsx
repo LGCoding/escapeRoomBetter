@@ -58,11 +58,13 @@ export default function Admin() {
   const [info, setInfo] = useState({
     title: "",
     homeText: "",
+    info: "",
   });
   useEffect(() => {
     setInfo({
       title: siteOptions.title,
       homeText: siteOptions.homeText,
+      info: siteOptions.info,
     });
   }, [siteOptions]);
   async function handleImageIcon(e: React.ChangeEvent<FormControlElement>) {
@@ -208,6 +210,28 @@ export default function Admin() {
           }
         />
       </FormGroup>
+      <FormGroup
+        style={{
+          width: "98%",
+        }}
+        className="mb-3"
+        controlId="formBasicEmail"
+      >
+        <FormLabel className="text-center">
+          Info Page Text{" "}
+          <a href="https://www.markdownguide.org/cheat-sheet/">
+            Works with markdown
+          </a>
+        </FormLabel>
+        <FormControl
+          type="text"
+          placeholder="Enter a description"
+          as="textarea"
+          value={info.info}
+          rows={10}
+          onChange={(v) => setInfo({ ...info, info: v.currentTarget.value })}
+        />
+      </FormGroup>
       <Button
         onClick={() => {
           siteOptionsModify.mutate({
@@ -216,6 +240,7 @@ export default function Admin() {
                 ? info.homeText
                 : undefined,
             title: info.title !== siteOptions.title ? info.title : undefined,
+            info: info.info !== siteOptions.info ? info.info : undefined,
             card: imageBufferCard
               ? imageBufferCard?.buffer.toString("base64")
               : undefined,
