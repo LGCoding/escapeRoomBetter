@@ -2,6 +2,7 @@ import "~/styles/globals.scss";
 
 import { type Metadata } from "next";
 import { TRPCReactProvider } from "~/trpc/react";
+import { useEffect, useState } from "react";
 // import { api } from "~/trpc/server";
 
 // import { Inter } from "next/font/google";
@@ -33,7 +34,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" data-bs-theme="light">
       <body>
         <div
           style={{

@@ -1,9 +1,22 @@
 "use client";
 import { usePathname, useRouter } from "next/navigation";
 import { createContext, useEffect, useMemo, useState } from "react";
-import { Button, Card, CardBody, CardText, CardTitle } from "react-bootstrap";
+import {
+  Button,
+  Card,
+  CardBody,
+  CardText,
+  CardTitle,
+  Dropdown,
+} from "react-bootstrap";
 import { api } from "~/trpc/react";
 import styles from "./styles.module.scss";
+import React from "react";
+import {
+  BrightnessAltHighFill,
+  CircleHalf,
+  MoonStarsFill,
+} from "react-bootstrap-icons";
 
 interface swal {
   title?: string;
@@ -11,6 +24,8 @@ interface swal {
   icon?: "error" | "none" | "success" | "info";
   confirmButton?: boolean;
   cancelButton?: boolean;
+  allowEscape?: boolean;
+  allowClickOut?: boolean;
   confirmButtonText?: string;
   cancelButtonText?: string;
   confirmCallback?: () => void;
@@ -33,6 +48,7 @@ export const siteOptionsContext = createContext({
   icon: "string;",
   title: "string;",
   info: "string;",
+  openTime: new Date(),
   rerender: () => {
     return;
   },
@@ -41,6 +57,7 @@ export const siteOptionsContext = createContext({
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [show, setShow] = useState(false);
   const [animating, setAnimating] = useState(false);
+  const [theme, setTheme] = useState("auto");
   const [isAdmin, setIsAdmin] = useState(false);
   const [gottenSession, setGottenSession] = useState(false);
   const [gottenSiteOptions, setGottenSiteOptions] = useState(false);
@@ -54,6 +71,21 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
+  useEffect(() => {
+    setTheme(localStorage.getItem("theme") ?? "auto");
+  }, []);
+  useEffect(() => {
+    if (
+      (theme === "auto" &&
+        window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches) ||
+      theme === "dark"
+    ) {
+      document.documentElement.setAttribute("data-bs-theme", "dark");
+    } else {
+      document.documentElement.setAttribute("data-bs-theme", "light");
+    }
+  }, [theme]);
   const [siteOptions, setSiteOptions] = useState<{
     card: string;
     card2: string;
@@ -61,6 +93,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     icon: string;
     title: string;
     info: string;
+    openTime: Date;
     rerender: () => void;
   }>({
     card: "",
@@ -69,6 +102,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     homeText: "",
     icon: "",
     title: "",
+    openTime: new Date(),
     rerender: rerender,
   });
   useEffect(() => {
@@ -92,6 +126,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           icon: `data:image/svg+xml;base64,${siteOptionsQuery.data.data.icon}`,
           title: siteOptionsQuery.data.data.title,
           info: siteOptionsQuery.data.data.info,
+          openTime: siteOptionsQuery.data.data.openTime,
           rerender: rerender,
         });
       }
@@ -184,7 +219,18 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           top: 0,
           backgroundColor: "rgba(50,50,50,.5)",
         }}
-        onClick={handleClose}
+        onKeyDown={(e) => {
+          if (
+            (e.key === "Escape" && swalInfo.allowEscape === undefined) ||
+            swalInfo.allowEscape
+          ) {
+            handleClose();
+          }
+        }}
+        onClick={() => {
+          if (swalInfo.allowClickOut === undefined || swalInfo.allowClickOut)
+            handleClose();
+        }}
       >
         <Card
           style={{
@@ -292,6 +338,31 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </CardBody>
         </Card>
       </div>
+      <Dropdown
+        style={{ position: "absolute", top: ".25rem", right: ".25rem" }}
+      >
+        <Dropdown.Toggle>
+          {theme === "auto" ? (
+            <CircleHalf />
+          ) : theme === "dark" ? (
+            <MoonStarsFill />
+          ) : (
+            <BrightnessAltHighFill />
+          )}
+        </Dropdown.Toggle>
+
+        <Dropdown.Menu>
+          <Dropdown.Item onClick={() => setTheme("auto")} title="system">
+            <CircleHalf />
+          </Dropdown.Item>
+          <Dropdown.Item onClick={() => setTheme("dark")} title="dark">
+            <MoonStarsFill />
+          </Dropdown.Item>
+          <Dropdown.Item onClick={() => setTheme("light")} title="light">
+            <BrightnessAltHighFill />
+          </Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
     </>
   );
 }

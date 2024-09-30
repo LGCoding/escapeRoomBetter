@@ -1,15 +1,42 @@
 "use client";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { ButtonGroup } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
 import { isMobile } from "react-device-detect";
 import NavButton from "../../_components/main/navButton";
-import { sessionContext, siteOptionsContext } from "../layoutStuff";
+import {
+  sessionContext,
+  siteOptionsContext,
+  swalContext,
+} from "../layoutStuff";
+import React from "react";
+import moment from "moment";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const session = useContext(sessionContext);
   const siteOptions = useContext(siteOptionsContext);
-
+  const swal = useContext(swalContext);
+  useEffect(() => {
+    if (
+      siteOptions.openTime.getTime() > new Date().getTime() &&
+      !session.isAdmin
+    ) {
+      swal({
+        cancelButton: false,
+        confirmButton: false,
+        icon: "info",
+        title: "We are not open yet",
+        allowClickOut: false,
+        allowEscape: false,
+        mainText:
+          "Come back " +
+          moment(siteOptions.openTime).fromNow() +
+          " Opens " +
+          moment(siteOptions.openTime).format("MMMM Do YYYY, h:mm:ss a"),
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [siteOptions.openTime]);
   return (
     <>
       <div
@@ -28,12 +55,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         }}
       >
         <div
-          className="bg-secondary"
           style={{
             gridArea: "a",
           }}
         >
-          <h2 className="fw-bold text-light text-uppercase mb-2 text-center ">
+          <h2 className="fw-bold border-bottom text-uppercase mb-2 pb-2 text-center ">
             <Image
               src={siteOptions.icon}
               alt="Brand"
@@ -70,7 +96,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             gridArea: "c",
             textAlign: "center",
           }}
-          className="bg-secondary"
+          className=""
         >
           <ButtonGroup>
             <NavButton href="/main" iconName="HouseDoorFill">

@@ -18,13 +18,14 @@ generator client {
 }
 
 model SiteOptions {
-  id       String  @id @default(cuid())
+  id       String    @id @default(cuid())
   icon     Bytes?
   card     Bytes?
   card2    Bytes?
   homeText String?
   info     String?
   title    String?
+  openTime DateTime?
 }
 
 model User {

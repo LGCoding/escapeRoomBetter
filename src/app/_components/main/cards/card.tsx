@@ -120,6 +120,7 @@ export default function Cards({
                   fontSize: 0.2 * test + "px",
                   gridArea: "a",
                   margin: 0,
+                  color: "black",
                 }}
                 className="text-center"
               >
@@ -145,7 +146,7 @@ export default function Cards({
                           position: "relative",
                           whiteSpace: "pre-line",
                           fontSize: object.fontSize * test * 0.1 + "px",
-                          color: object.color ?? "black",
+                          color: object.color || "rgb(0, 0, 0)",
                         }}
                         key={i + "cardText" + "title"}
                       >

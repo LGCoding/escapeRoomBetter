@@ -265,7 +265,8 @@ function Text({
                 userSelect: "none",
                 whiteSpace: "pre-line",
                 position: "relative",
-                color: object.color ?? "black",
+                // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+                color: object.color || "rgb(0, 0, 0)",
                 margin: 0,
               }}
               onContextMenu={(e) => {
@@ -331,6 +332,7 @@ export default function Cards({
             fontSize: 0.2 * test + "px",
             gridArea: "a",
             margin: 0,
+            color: "black",
           }}
           className="text-center"
         >

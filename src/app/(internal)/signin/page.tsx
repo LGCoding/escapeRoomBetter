@@ -147,10 +147,7 @@ export default function Home() {
                               controlId="formBasicCheckbox"
                             >
                               <p className="small">
-                                <a
-                                  className="text-primary"
-                                  href="forgotpassword"
-                                >
+                                <a className="text-info" href="forgotpassword">
                                   Forgot password?
                                 </a>
                               </p>
@@ -170,7 +167,7 @@ export default function Home() {
                       <div className="mt-3">
                         <p className="mb-0  text-center">
                           {"Don't have an account? "}
-                          <a href="signup" className="text-primary fw-bold">
+                          <a href="signup" className="text-info fw-bold">
                             Sign Up
                           </a>
                         </p>

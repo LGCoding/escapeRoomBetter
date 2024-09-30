@@ -1,5 +1,12 @@
 {
   "WillLuke.nextjs.addTypesOnSave": true,
   "WillLuke.nextjs.hasPrompted": true,
-  "cSpell.words": ["Cardsd", "Formik", "planetscale", "qrcode", "yudiel"]
+  "cSpell.words": [
+    "Cardsd",
+    "Formik",
+    "planetscale",
+    "qrcode",
+    "signup",
+    "yudiel"
+  ]
 }

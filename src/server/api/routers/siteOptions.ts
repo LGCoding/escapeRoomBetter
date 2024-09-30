@@ -16,6 +16,7 @@ export const siteOptionsRouter = createTRPCRouter({
             info: string;
             icon: string;
             title: string;
+            openTime: Date;
           };
         }
     > => {
@@ -27,6 +28,7 @@ export const siteOptionsRouter = createTRPCRouter({
           icon: true,
           title: true,
           info: true,
+          openTime: true,
         },
       });
       if (siteOptions) {
@@ -39,6 +41,8 @@ export const siteOptionsRouter = createTRPCRouter({
             card: siteOptions.card?.toString("base64") ?? "",
             card2: siteOptions.card2?.toString("base64") ?? "",
             icon: siteOptions.icon?.toString("base64") ?? "",
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+            openTime: siteOptions.openTime ?? new Date(),
           },
         };
       }
@@ -57,6 +61,7 @@ export const siteOptionsRouter = createTRPCRouter({
         icon: z.union([z.string(), z.undefined()]),
         info: z.union([z.string(), z.undefined()]),
         title: z.union([z.string(), z.undefined()]),
+        openTime: z.union([z.date(), z.undefined()]),
       }),
     )
     .mutation(async ({ input, ctx }) => {
@@ -80,6 +85,7 @@ export const siteOptionsRouter = createTRPCRouter({
               homeText: input.homeText,
               icon: input.icon ? Buffer.from(input.icon, "base64") : undefined,
               title: input.title,
+              openTime: input.openTime,
             },
           });
           return { wasError: false, data: "Modified site options" };
