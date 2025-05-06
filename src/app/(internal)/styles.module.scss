@@ -6,6 +6,10 @@ $check-left: ($loader-size/6 + $loader-size/12);
 $check-thickness: 5px;
 $check-color: $brand-success;
 
+.theme::after {
+  content: initial;
+}
+
 .circleLoader {
   border: 3px solid rgba(0, 0, 0, 0.2);
   border-left-color: $check-color;

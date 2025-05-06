@@ -348,7 +348,6 @@ export const lockRouter = createTRPCRouter({
           data: {
             title: string;
             id: string;
-            combination: string;
             victoryLock: boolean;
             path: {
               name: string;
@@ -382,7 +381,6 @@ export const lockRouter = createTRPCRouter({
           },
         },
         select: {
-          combination: true,
           id: true,
           title: true,
           victoryLock: true,

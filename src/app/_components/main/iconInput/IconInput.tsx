@@ -5,23 +5,21 @@ import Popover from "react-bootstrap/esm/Popover";
 import type CSS from "csstype";
 
 const icons = [
-  "▲",
-  "■",
-  "⬟",
-  "⬢",
-  "●",
-  "⧱",
-  "⬬",
-  "▰",
-  "⬧",
-  "⨸",
-  "𝞹",
-  "𝝳",
-  "𝞓",
-  "♣",
   "¶",
-  "♥",
-  "☻",
+  "Ø",
+  "Œ",
+  "¢",
+  "$",
+  "£",
+  ">",
+  "¥",
+  "×",
+  "÷",
+  "¿",
+  "#",
+  "§",
+  "&",
+  "»",
 ];
 
 export default function IconInput({

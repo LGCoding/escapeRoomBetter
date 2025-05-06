@@ -80,7 +80,7 @@ export default function Home() {
                               localStorage.setItem("seenWelcome", "true")
                             }
                             href="signin"
-                            className="text-primary fw-bold"
+                            className="text-info text-primary fw-bold"
                           >
                             Login
                           </a>

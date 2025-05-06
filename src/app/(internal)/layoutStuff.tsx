@@ -13,7 +13,7 @@ import { api } from "~/trpc/react";
 import styles from "./styles.module.scss";
 import React from "react";
 import {
-  BrightnessAltHighFill,
+  BrightnessHighFill,
   CircleHalf,
   MoonStarsFill,
 } from "react-bootstrap-icons";
@@ -341,25 +341,25 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <Dropdown
         style={{ position: "absolute", top: ".25rem", right: ".25rem" }}
       >
-        <Dropdown.Toggle>
+        <Dropdown.Toggle className={styles.theme + " py-2"}>
           {theme === "auto" ? (
             <CircleHalf />
           ) : theme === "dark" ? (
             <MoonStarsFill />
           ) : (
-            <BrightnessAltHighFill />
+            <BrightnessHighFill />
           )}
         </Dropdown.Toggle>
 
         <Dropdown.Menu>
           <Dropdown.Item onClick={() => setTheme("auto")} title="system">
-            <CircleHalf />
+            <CircleHalf /> System
           </Dropdown.Item>
           <Dropdown.Item onClick={() => setTheme("dark")} title="dark">
-            <MoonStarsFill />
+            <MoonStarsFill /> Dark
           </Dropdown.Item>
           <Dropdown.Item onClick={() => setTheme("light")} title="light">
-            <BrightnessAltHighFill />
+            <BrightnessHighFill /> Light
           </Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
