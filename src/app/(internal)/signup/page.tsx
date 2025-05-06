@@ -23,7 +23,7 @@ const schema = yup.object({
   name: yup
     .string()
     .required("This field is required")
-    .max(10, "Maximum length of 10 characters")
+    .max(20, "Maximum length of 20 characters")
     .min(1, "Minimum length of 1 characters")
     .matches(/^[aA-zZ\s]+$/, "Only alphabets are allowed for this field "),
   email: yup.string().email().required("This field is required"),
